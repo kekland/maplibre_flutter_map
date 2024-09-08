@@ -1,0 +1,32 @@
+load("@build_bazel_rules_apple//apple:apple.bzl", "apple_universal_binary")
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+
+cc_library(
+    name = "maplibre_flutter_map_srcs",
+    deps = [
+        "@maplibre//:mbgl-core",
+    ],
+    srcs = glob(["src/**/*"]),
+    # copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    visibility = ["//visibility:private"],
+)
+
+# Android
+
+# ... TODO
+
+# iOS
+
+# ... TODO
+
+# macOS
+
+# ... TODO
+
+# Linux
+
+# ... TODO
+
+# Windows
+
+# ... TODO

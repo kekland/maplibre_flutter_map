@@ -1,0 +1,7 @@
+
+# Bazel
+MODULE.bazel.lock
+bazel-bin
+bazel-maplibre_flutter_map
+bazel-out
+bazel-testlogs

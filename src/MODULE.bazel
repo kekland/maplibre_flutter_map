@@ -1,0 +1,17 @@
+module(name = "maplibre_flutter_map")
+
+bazel_dep(name = "apple_support", version = "1.16.0", repo_name = "build_bazel_apple_support")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+bazel_dep(name = "platforms", version = "0.0.10")
+bazel_dep(name = "rules_apple", version = "3.7.0", repo_name = "build_bazel_rules_apple")
+bazel_dep(name = "rules_swift", version = "2.1.1", repo_name = "build_bazel_rules_swift")
+bazel_dep(name = "rules_xcodeproj", version = "2.5.2")
+bazel_dep(name = "aspect_rules_js", version = "2.0.0")
+bazel_dep(name = "rules_nodejs", version = "6.2.0")
+
+local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
+
+local_repository(
+    name = "maplibre",
+    path = "../third-party/maplibre-native",
+)
