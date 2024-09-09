@@ -1,0 +1,39 @@
+name: MaplibreFlutterMapDarwinBindings
+language: objc
+output: 
+  bindings: 'lib/_gen/darwin_bindings.dart'
+  objc-bindings: 'darwin/Classes/maplibre_flutter_map_bindings.dart.m'
+
+headers:
+  entry-points:
+    - './build/ffigen/*.h'
+
+exclude-all-by-default: true
+
+objc-interfaces:
+  include:
+    - 'FlutterTextureNotifier'
+    - 'FlutterTextureRegistryProxy'
+    - 'MaplibreFlutterMapPluginGlobals'
+    - 'BasicFlutterTexture'
+
+  module:
+    'FlutterTextureNotifier': 'maplibre_flutter_map'
+    'FlutterTextureRegistryProxy': 'maplibre_flutter_map'
+    'MaplibreFlutterMapPluginGlobals': 'maplibre_flutter_map'
+    'BasicFlutterTexture': 'maplibre_flutter_map'
+
+objc-protocols:
+  include:
+    - 'FlutterPluginRegistrar'
+    - 'FlutterPluginRegistry'
+    - 'FlutterTexture'
+    - 'FlutterTextureRegistry'
+    - 'FlutterTextureRegistryRelay'
+
+external-versions:
+  ios:
+    min: 14.0.0
+
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unused_element, unused_field, return_of_invalid_type, void_checks, annotate_overrides, no_leading_underscores_for_local_identifiers, library_private_types_in_public_api

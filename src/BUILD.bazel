@@ -1,32 +1,57 @@
 load("//bazel:flags.bzl", "CPP_FLAGS", "MAPLIBRE_FLAGS")
-
 load("@build_bazel_rules_apple//apple:apple.bzl", "apple_universal_binary")
+load("@rules_android//rules:rules.bzl", "android_library")
+
+# --- Common ---
+
+SRCS = glob(["src/**/*"])
 
 cc_library(
     name = "maplibre_flutter_map_srcs",
     deps = [
+        "//platform/default:mbgl-default",
         "//:mbgl-core",
     ],
-    srcs = glob(["src/**/*"]),
+    srcs = SRCS,
     copts = CPP_FLAGS + MAPLIBRE_FLAGS,
     visibility = ["//visibility:private"],
 )
 
-# Android
+# --- Android ---
 
-# ... TODO
+platform(
+    name = "android_arm64",
+    constraint_values = [
+        "@platforms//os:android",
+        "@platforms//cpu:arm64",
+    ],
+)
 
-# iOS
+cc_binary(
+    name = "maplibre_flutter_map_android",
+    deps = [
+        ":maplibre_flutter_map_srcs",
+    ],
+    srcs = SRCS,
+    copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    linkopts = [
+        "-L/opt/homebrew/opt/icu4c/lib",
+    ],
+    visibility = ["//visibility:public"],
+    linkshared = True,
+    linkstatic = True,
+)
+
+# --- iOS ---
 
 cc_binary(
     name = "maplibre_flutter_map_ios",
     deps = [
+        "//platform/default:mbgl-default",
         "//platform:ios-sdk",
         ":maplibre_flutter_map_srcs",
     ],
-    srcs = [
-        ":maplibre_flutter_map_srcs",
-    ] + glob(["src/**/*"]),
+    srcs = SRCS,
     copts = CPP_FLAGS + MAPLIBRE_FLAGS,
     linkopts = [
         "-L/opt/homebrew/opt/icu4c/lib",
@@ -45,17 +70,16 @@ apple_universal_binary(
     visibility = ["//visibility:public"],
 )
 
-# macOS
+# --- macOS ---
 
 cc_binary(
     name = "maplibre_flutter_map_macos",
     deps = [
+        "//platform/default:mbgl-default",
         "//platform:macos-objcpp",
         ":maplibre_flutter_map_srcs",
     ],
-    srcs = [
-        ":maplibre_flutter_map_srcs",
-    ] + glob(["src/**/*"]),
+    srcs = SRCS,
     copts = CPP_FLAGS + MAPLIBRE_FLAGS,
     linkopts = [
         "-L/opt/homebrew/opt/icu4c/lib",

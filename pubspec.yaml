@@ -12,7 +12,15 @@ dependencies:
     
   plugin_platform_interface: ^2.0.2
   ffi: ^2.1.3
-
+  objective_c: 
+    git:
+      url: https://github.com/dart-lang/native/
+      path: pkgs/objective_c
+      ref: 87e8f924f06458ccba11dda7edc26d607c663d60
+  
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -27,7 +35,12 @@ dev_dependencies:
 flutter:
   plugin:
     platforms:
+      android:
+        package: com.example.maplibre_flutter_map
+        pluginClass: MaplibreFlutterMapPlugin
       ios:
         pluginClass: MaplibreFlutterMapPlugin
+        sharedDarwinSource: true
       macos:
         pluginClass: MaplibreFlutterMapPlugin
+        sharedDarwinSource: true
