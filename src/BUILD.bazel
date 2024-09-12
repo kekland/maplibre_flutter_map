@@ -17,6 +17,24 @@ cc_library(
     visibility = ["//visibility:private"],
 )
 
+# --- Test project ---
+
+cc_binary(
+    name = "main",
+    deps = [
+        "//platform:macos-objcpp",
+        "//platform/default:mbgl-default",
+        ":maplibre_flutter_map_srcs",
+    ],
+    srcs = SRCS + glob(["test/**/*"]),
+    copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    linkopts = [
+        "-L/opt/homebrew/opt/icu4c/lib",
+    ],
+    visibility = ["//visibility:public"],
+    
+)
+
 # --- Android ---
 
 platform(
@@ -75,8 +93,8 @@ apple_universal_binary(
 cc_binary(
     name = "maplibre_flutter_map_macos",
     deps = [
-        "//platform/default:mbgl-default",
         "//platform:macos-objcpp",
+        "//platform/default:mbgl-default",
         ":maplibre_flutter_map_srcs",
     ],
     srcs = SRCS,

@@ -29,38 +29,22 @@ class MapLibreFlutterMapBindings {
       _lookup<ffi.NativeFunction<ffi.Int Function()>>('test_function');
   late final _test_function = _test_functionPtr.asFunction<int Function()>();
 
-  mbgl_run_loop_t start_run_loop_thread() {
-    return _start_run_loop_thread();
-  }
-
-  late final _start_run_loop_threadPtr =
-      _lookup<ffi.NativeFunction<mbgl_run_loop_t Function()>>(
-          'start_run_loop_thread');
-  late final _start_run_loop_thread =
-      _start_run_loop_threadPtr.asFunction<mbgl_run_loop_t Function()>();
-
-  mbgl_headless_frontend_t headless_frontend_create(
-    mbgl_run_loop_t run_loop,
-    int width,
-    int height,
-    double pixel_ratio,
+  maplibre_thread_data start_run_loop_thread(
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> _observer,
   ) {
-    return _headless_frontend_create(
-      run_loop,
-      width,
-      height,
-      pixel_ratio,
+    return _start_run_loop_thread(
+      _observer,
     );
   }
 
-  late final _headless_frontend_createPtr = _lookup<
-      ffi.NativeFunction<
-          mbgl_headless_frontend_t Function(mbgl_run_loop_t, ffi.Int, ffi.Int,
-              ffi.Float)>>('headless_frontend_create');
-  late final _headless_frontend_create =
-      _headless_frontend_createPtr.asFunction<
-          mbgl_headless_frontend_t Function(
-              mbgl_run_loop_t, int, int, double)>();
+  late final _start_run_loop_threadPtr = _lookup<
+          ffi.NativeFunction<
+              maplibre_thread_data Function(
+                  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>>(
+      'start_run_loop_thread');
+  late final _start_run_loop_thread = _start_run_loop_threadPtr.asFunction<
+      maplibre_thread_data Function(
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>();
 
   ffi.Pointer<ffi.Uint8> headless_frontend_get_image_data_ptr(
     mbgl_headless_frontend_t frontend,
@@ -112,57 +96,6 @@ class MapLibreFlutterMapBindings {
   late final _map_observer_create = _map_observer_createPtr.asFunction<
       mbgl_map_observer_t Function(
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>();
-
-  mbgl_tile_server_options_t tile_server_options_map_tiler_create() {
-    return _tile_server_options_map_tiler_create();
-  }
-
-  late final _tile_server_options_map_tiler_createPtr =
-      _lookup<ffi.NativeFunction<mbgl_tile_server_options_t Function()>>(
-          'tile_server_options_map_tiler_create');
-  late final _tile_server_options_map_tiler_create =
-      _tile_server_options_map_tiler_createPtr
-          .asFunction<mbgl_tile_server_options_t Function()>();
-
-  mbgl_map_t map_create(
-    mbgl_run_loop_t run_loop,
-    mbgl_headless_frontend_t frontend,
-    mbgl_map_observer_t observer,
-    int map_mode,
-    double pixel_ratio,
-    ffi.Pointer<ffi.Char> api_key,
-    mbgl_tile_server_options_t tile_server_options,
-  ) {
-    return _map_create(
-      run_loop,
-      frontend,
-      observer,
-      map_mode,
-      pixel_ratio,
-      api_key,
-      tile_server_options,
-    );
-  }
-
-  late final _map_createPtr = _lookup<
-      ffi.NativeFunction<
-          mbgl_map_t Function(
-              mbgl_run_loop_t,
-              mbgl_headless_frontend_t,
-              mbgl_map_observer_t,
-              ffi.Uint32,
-              ffi.Float,
-              ffi.Pointer<ffi.Char>,
-              mbgl_tile_server_options_t)>>('map_create');
-  late final _map_create = _map_createPtr.asFunction<
-      mbgl_map_t Function(
-          mbgl_run_loop_t,
-          mbgl_headless_frontend_t,
-          mbgl_map_observer_t,
-          int,
-          double,
-          ffi.Pointer<ffi.Char>,
-          mbgl_tile_server_options_t)>();
 
   void map_set_style(
     mbgl_run_loop_t run_loop,
@@ -304,11 +237,18 @@ final class _opaque_pthread_t extends ffi.Struct {
   external ffi.Array<ffi.Char> __opaque;
 }
 
+final class maplibre_thread_data extends ffi.Struct {
+  external mbgl_run_loop_t run_loop;
+
+  external mbgl_headless_frontend_t frontend;
+
+  external mbgl_map_t map;
+}
+
 typedef mbgl_run_loop_t = ffi.Pointer<ffi.Void>;
 typedef mbgl_headless_frontend_t = ffi.Pointer<ffi.Void>;
-typedef mbgl_map_observer_t = ffi.Pointer<ffi.Void>;
-typedef mbgl_tile_server_options_t = ffi.Pointer<ffi.Void>;
 typedef mbgl_map_t = ffi.Pointer<ffi.Void>;
+typedef mbgl_map_observer_t = ffi.Pointer<ffi.Void>;
 
 const int __WORDSIZE = 64;
 

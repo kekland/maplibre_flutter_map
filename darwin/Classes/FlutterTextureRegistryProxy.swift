@@ -97,20 +97,20 @@ import FlutterMacOS
     }
     
     public func copyPixelBuffer() -> Unmanaged<CVPixelBuffer>? {
-        print("copyPixelBuffer");
+        // print("copyPixelBuffer");
         
         if (ptr == nil) {
-            print("ptr nil");
+            // print("ptr nil");
             return nil;
         }
         
         if (self.pool == nil) {
-            print("pool nil");
+            // print("pool nil");
             return nil;
         }
         
         if (buffer == nil) {
-            print("buffer nil");
+            // print("buffer nil");
             return nil;
         }
         

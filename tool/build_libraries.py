@@ -88,6 +88,24 @@ def build_macos_dynamic_library():
 
     return macos_dynamic_library
 
+def build_test_executable():
+    print('Building test executable')
+    
+    # Run bazel build for test executable
+    subprocess.run(
+        shlex.split(f'bazel build //platform/flutter:main --//:renderer=metal {BZL_FLAGS}'),
+        cwd=maplibre_native_root,
+        check=True
+    )
+
+    # Copy the built executable to the plugin directory
+    bazel_out_test_executable = maplibre_native_root / 'bazel-bin/platform/flutter/main'
+    test_executable = plugin_root / 'build/test'
+
+    subprocess.run(shlex.split(f'cp -rf {bazel_out_test_executable} {test_executable}'), check=True)
+    
+    return test_executable
+
 def fix_dylib_rpath(path):
     print(f'Fixing dylib rpath for {path}')
 
@@ -107,38 +125,63 @@ def run_ffigen():
         cwd=plugin_root
     )
 
-args = sys.argv[1:]
+def __run__():
+    args = sys.argv[1:]
 
-copy_src_to_maplibre_native()
+    copy_src_to_maplibre_native()
 
-has_args = len(args) > 0
+    has_args = len(args) > 0
 
-is_darwin = 'darwin' in args
-is_ios = is_darwin or 'ios' in args
-is_macos = is_darwin or 'macos' in args
+    is_darwin = 'darwin' in args
+    is_ios = is_darwin or 'ios' in args
+    is_macos = is_darwin or 'macos' in args
+    is_test_executable = 'test' in args
 
-if not has_args or is_ios:
-  print('-' * 50)
-  print('🕛 Building iOS dynamic library')
-  print('-' * 50)
+    if is_test_executable:
+        print('-' * 50)
+        print('🕛 Building test executable')
+        print('-' * 50)
 
-  ios_dynamic_library = build_ios_dynamic_library()
-  fix_dylib_rpath(ios_dynamic_library)
+        test_executable = build_test_executable()
 
-  print('-' * 50)
-  print('🔥 iOS dynamic library built successfully')
-  print('-' * 50)
+        print('-' * 50)
+        print('🔥 Test executable built successfully')
+        print('-' * 50)
 
-if not has_args or is_macos:
-  print('-' * 50)
-  print('🕛 Building macOS dynamic library')
-  print('-' * 50)
+        if 'run' in args:
+            print('-' * 50)
+            print('🕛 Running test executable')
+            print('-' * 50)
 
-  macos_dynamic_library = build_macos_dynamic_library()
-  fix_dylib_rpath(macos_dynamic_library)
+            subprocess.run(shlex.split(f'{test_executable}'), check=True)
 
-  print('-' * 50)
-  print('🔥 macOS dynamic library built successfully')
-  print('-' * 50)
+        return
 
-run_ffigen()
+    if not has_args or is_ios:
+      print('-' * 50)
+      print('🕛 Building iOS dynamic library')
+      print('-' * 50)
+
+      ios_dynamic_library = build_ios_dynamic_library()
+      fix_dylib_rpath(ios_dynamic_library)
+
+      print('-' * 50)
+      print('🔥 iOS dynamic library built successfully')
+      print('-' * 50)
+
+    if not has_args or is_macos:
+      print('-' * 50)
+      print('🕛 Building macOS dynamic library')
+      print('-' * 50)
+
+      macos_dynamic_library = build_macos_dynamic_library()
+      fix_dylib_rpath(macos_dynamic_library)
+
+      print('-' * 50)
+      print('🔥 macOS dynamic library built successfully')
+      print('-' * 50)
+
+    run_ffigen()
+
+if __name__ == '__main__':
+    __run__()

@@ -80,43 +80,14 @@ class _MapLibreMapLayerState extends State<MapLibreMapLayer>
     _textureId = getFlutterTextureRegistryProxyInstance()
         .registerTextureWithTexture_(_texture);
 
-    _runLoop = bindings.start_run_loop_thread();
-
-    _frontend = bindings.headless_frontend_create(
-      _runLoop!,
-      1000,
-      1000,
-      1.0,
+    final data = bindings.start_run_loop_thread(
+      NativeCallable<Void Function()>.listener(() {
+        print('hi');
+      }).nativeFunction,
     );
-
-    final mapObserver = bindings.map_observer_create(
-      NativeCallable<Void Function()>.listener(
-        () {
-          print('hi');
-          _texture.copyFromBufferWithPointer_width_height_channels_(
-            bindings.headless_frontend_get_image_data_ptr(_frontend!).cast(),
-            1000,
-            1000,
-            4,
-          );
-
-          getFlutterTextureRegistryProxyInstance()
-              .textureFrameAvailableWithTextureId_(_textureId!);
-        },
-      ).nativeFunction,
-    );
-
-    final options = bindings.tile_server_options_map_tiler_create();
-
-    _map = bindings.map_create(
-      _runLoop!,
-      _frontend!,
-      mapObserver,
-      0,
-      1.0,
-      '5IZuFl4CkB3Io0SjxUVJ'.toNativeUtf8().cast(),
-      options,
-    );
+    _runLoop = data.run_loop;
+    _frontend = data.frontend;
+    _map = data.map;
 
     bindings.map_set_style(
       _runLoop!,

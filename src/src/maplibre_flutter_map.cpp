@@ -23,50 +23,56 @@ int test_function()
     return 42;
 }
 
-void run_loop_thread(std::promise<mbgl::util::RunLoop*>& p)
+void run_loop_thread(std::promise<std::tuple<mbgl::util::RunLoop*, mbgl::HeadlessFrontend*, mbgl::Map*>>& p, void (*_observer)())
 {
-    auto runLoop = mbgl::util::RunLoop(mbgl::util::RunLoop::Type::New);
-    p.set_value(&runLoop);
+    auto run_loop = mbgl::util::RunLoop(mbgl::util::RunLoop::Type::New);
 
-    runLoop.run();
+    auto width = 512;
+    auto height = 512;
+    auto pixel_ratio = 1.0;
+
+    auto frontend = new HeadlessFrontend({ width, height }, pixel_ratio);
+    auto observer = new FlutterMapLibreObserver();
+    observer->on_map_change = _observer;
+
+    auto options = TileServerOptions::MapTilerConfiguration();
+
+    auto map = new Map(
+        *frontend, *observer,
+        MapOptions()
+            .withMapMode(MapMode::Continuous)
+            .withSize(frontend->getSize())
+            .withPixelRatio(pixel_ratio),
+        ResourceOptions().withApiKey("5IZuFl4CkB3Io0SjxUVJ").withTileServerOptions(options));
+
+    p.set_value(std::make_tuple(&run_loop, frontend, map));
+    std::cout << "Thread replied" << std::endl;
+
+    run_loop.run();
 
     std::cout << "Thread finished" << std::endl;
 }
 
-mbgl_run_loop_t start_run_loop_thread()
+maplibre_thread_data start_run_loop_thread(void (*_observer)())
 {
-    std::promise<mbgl::util::RunLoop*> p;
+    std::promise<std::tuple<mbgl::util::RunLoop*, mbgl::HeadlessFrontend*, mbgl::Map*>> p;
     auto future = p.get_future();
 
-    auto thread = std::thread(run_loop_thread, std::ref(p));
+    auto thread = std::thread(run_loop_thread, std::ref(p), _observer); 
+
     thread.detach();
 
-    future.wait();
-    auto runLoop = future.get();
+    auto tuple = future.get();
+    auto run_loop = std::get<0>(tuple);
+    auto frontend = std::get<1>(tuple);
+    auto map = std::get<2>(tuple);
 
     std::cout << "Thread started" << std::endl;
-    std::cout << runLoop << std::endl;
+    std::cout << "Run loop: " << run_loop << std::endl;
+    std::cout << "Frontend: " << frontend << std::endl;
+    std::cout << "Map: " << map << std::endl;
 
-    return runLoop;
-}
-
-mbgl_headless_frontend_t headless_frontend_create(mbgl_run_loop_t run_loop,
-    int width, int height,
-    float pixel_ratio)
-{
-    auto _run_loop = static_cast<mbgl::util::RunLoop*>(run_loop);
-
-    std::promise<mbgl::HeadlessFrontend*> p;
-
-    _run_loop->invoke([&] {
-        auto frontend = new mbgl::HeadlessFrontend({ width, height }, pixel_ratio);
-        p.set_value(frontend);
-    });
-
-    auto future = p.get_future();
-    future.wait();
-
-    return future.get();
+    return { run_loop, frontend, map };
 }
 
 uint8_t* headless_frontend_get_image_data_ptr(mbgl_headless_frontend_t frontend)
@@ -81,15 +87,7 @@ void headless_frontend_render_frame(mbgl_run_loop_t run_loop, mbgl_headless_fron
     auto frontend_ = static_cast<HeadlessFrontend*>(frontend);
     auto _run_loop = static_cast<mbgl::util::RunLoop*>(run_loop);
 
-    std::promise<void> p;
-
-    _run_loop->invoke([&] {
-        frontend_->renderFrame();
-        p.set_value();
-    });
-
-    auto future = p.get_future();
-    future.wait();
+    frontend_->renderFrame();
 }
 
 mbgl_map_observer_t map_observer_create(void (*on_map_change)())
@@ -159,19 +157,21 @@ void map_jump_to(mbgl_run_loop_t run_loop, mbgl_map_t map, double lat, double lo
     auto _run_loop = static_cast<mbgl::util::RunLoop*>(run_loop);
     auto _map = static_cast<mbgl::Map*>(map);
 
-    std::promise<void> p;
+    // std::promise<void> p;
 
-    _run_loop->invoke([&] {
+
+    // _run_loop->schedule([&] {
+        std::cout << "JUMPING HAHA" << std::endl;
+    
         _map->jumpTo(CameraOptions()
                          .withCenter(LatLng { lat, lon })
                          .withZoom(zoom)
                          .withBearing(bearing)
                          .withPitch(pitch));
 
-        p.set_value();
-    });
+    //     p.set_value();
+    // });
 
-    auto future = p.get_future();
-    future.wait();
+    // auto future = p.get_future();
+    // future.wait();
 }
-
