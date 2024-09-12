@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "buildTestExecutable",
+      "type": "shell",
+      "command": "${workspaceFolder}/tool/build_libraries.py test",
+      "group": {
+        "kind": "build",
+      },
+    }
+  ],
+}

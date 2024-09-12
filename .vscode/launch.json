@@ -1,0 +1,33 @@
+{
+  "configurations": [
+    {
+      "name": "(lldb) [debug] test executable (src/test/main.cpp)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/third-party/maplibre-native/bazel-bin/platform/flutter/main",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/third-party/maplibre-native",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "sourceFileMap": {
+        "platform/flutter": "${workspaceFolder}/src/",
+        "platform": "${workspaceFolder}/third-party/maplibre-native/platform",
+        "include/mbgl": "${workspaceFolder}/third-party/maplibre-native/include/mbgl",
+        "src/mbgl": "${workspaceFolder}/third-party/maplibre-native/src/mbgl",
+      }
+    },
+    {
+      "name": "(lldb) [attach] test executable (src/test/main.cpp)",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "${workspaceFolder}/third-party/maplibre-native/bazel-bin/platform/flutter/main",
+      "MIMode": "lldb",
+      "sourceFileMap": {
+        "platform/flutter": "${workspaceFolder}/src/",
+        "platform": "${workspaceFolder}/third-party/maplibre-native/platform",
+      }
+    }
+  ]
+}

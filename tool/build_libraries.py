@@ -93,7 +93,7 @@ def build_test_executable():
     
     # Run bazel build for test executable
     subprocess.run(
-        shlex.split(f'bazel build //platform/flutter:main --//:renderer=metal {BZL_FLAGS}'),
+        shlex.split(f'bazel build //platform/flutter:main --//:renderer=metal {BZL_FLAGS} --compilation_mode dbg'),
         cwd=maplibre_native_root,
         check=True
     )
