@@ -14,6 +14,8 @@
 #include <thread>
 
 #include "flutter_map_observer.hpp"
+#include "flutter_renderer_observer.hpp"
+#include "frontend/flutter_renderer_frontend.hpp"
 
 using namespace std;
 using namespace mbgl;
@@ -23,7 +25,10 @@ int test_function()
     return 42;
 }
 
-void run_loop_thread(std::promise<std::tuple<mbgl::util::RunLoop*, mbgl::HeadlessFrontend*, mbgl::Map*>>& p, void (*_observer)())
+void _run_loop_thread(
+    std::promise<std::tuple<mbgl::util::RunLoop*, fml::FlutterRendererFrontend*, mbgl::Map*>>& p,
+    void (*invalidateFlutterTicker)(),
+    void (*onFrameRendered)())
 {
     auto run_loop = mbgl::util::RunLoop(mbgl::util::RunLoop::Type::New);
 
@@ -31,19 +36,31 @@ void run_loop_thread(std::promise<std::tuple<mbgl::util::RunLoop*, mbgl::Headles
     auto height = 512;
     auto pixel_ratio = 1.0;
 
-    auto frontend = new HeadlessFrontend({ width, height }, pixel_ratio);
-    auto observer = new FlutterMapLibreObserver();
-    observer->on_map_change = _observer;
+    auto frontend = new fml::FlutterRendererFrontend({ width, height },
+        pixel_ratio,
+        mbgl::gfx::Renderable::SwapBehaviour::NoFlush,
+        mbgl::gfx::ContextMode::Unique,
+        std::nullopt,
+        invalidateFlutterTicker);
 
-    auto options = TileServerOptions::MapTilerConfiguration();
+    auto observer = new fml::FlutterMapObserver();
+    observer->on_map_change = onFrameRendered;
 
-    auto map = new Map(
+    auto rendererObserver = new fml::FlutterRendererObserver();
+    frontend->setObserver(*rendererObserver);
+
+    auto options = mbgl::TileServerOptions::MapTilerConfiguration();
+
+    auto map = new mbgl::Map(
         *frontend, *observer,
-        MapOptions()
-            .withMapMode(MapMode::Continuous)
+        mbgl::MapOptions()
+            .withMapMode(mbgl::MapMode::Continuous)
             .withSize(frontend->getSize())
             .withPixelRatio(pixel_ratio),
-        ResourceOptions().withApiKey("5IZuFl4CkB3Io0SjxUVJ").withTileServerOptions(options));
+        mbgl::ResourceOptions().withApiKey("5IZuFl4CkB3Io0SjxUVJ").withTileServerOptions(options));
+
+    auto style = "https://api.maptiler.com/maps/7d5f4aed-f3bb-4c46-8dee-e1e79cd2e12b/style.json?key=5IZuFl4CkB3Io0SjxUVJ";
+    map->getStyle().loadURL(style);
 
     p.set_value(std::make_tuple(&run_loop, frontend, map));
     std::cout << "Thread replied" << std::endl;
@@ -53,12 +70,14 @@ void run_loop_thread(std::promise<std::tuple<mbgl::util::RunLoop*, mbgl::Headles
     std::cout << "Thread finished" << std::endl;
 }
 
-maplibre_thread_data start_run_loop_thread(void (*_observer)())
+maplibre_thread_data start_run_loop_thread(
+    void (*_invalidateFlutterTicker)(),
+    void (*_onFrameRendered)())
 {
-    std::promise<std::tuple<mbgl::util::RunLoop*, mbgl::HeadlessFrontend*, mbgl::Map*>> p;
+    std::promise<std::tuple<mbgl::util::RunLoop*, fml::FlutterRendererFrontend*, mbgl::Map*>> p;
     auto future = p.get_future();
-
-    auto thread = std::thread(run_loop_thread, std::ref(p), _observer); 
+    
+    auto thread = std::thread(_run_loop_thread, std::ref(p), _invalidateFlutterTicker, _onFrameRendered);
 
     thread.detach();
 
@@ -75,24 +94,22 @@ maplibre_thread_data start_run_loop_thread(void (*_observer)())
     return { run_loop, frontend, map };
 }
 
-uint8_t* headless_frontend_get_image_data_ptr(mbgl_headless_frontend_t frontend)
+uint8_t* flutter_renderer_frontend_get_image_data_ptr(fml_flutter_renderer_frontend_t frontend)
 {
-    auto frontend_ = static_cast<HeadlessFrontend*>(frontend);
+    auto frontend_ = static_cast<fml::FlutterRendererFrontend*>(frontend);
     auto image = frontend_->readStillImage();
     return image.data.get();
 }
 
-void headless_frontend_render_frame(mbgl_run_loop_t run_loop, mbgl_headless_frontend_t frontend)
+void flutter_renderer_frontend_render_frame(fml_flutter_renderer_frontend_t frontend)
 {
-    auto frontend_ = static_cast<HeadlessFrontend*>(frontend);
-    auto _run_loop = static_cast<mbgl::util::RunLoop*>(run_loop);
-
-    frontend_->renderFrame();
+    auto frontend_ = static_cast<fml::FlutterRendererFrontend*>(frontend);
+    frontend_->asyncRenderFrame();
 }
 
 mbgl_map_observer_t map_observer_create(void (*on_map_change)())
 {
-    auto observer = new FlutterMapLibreObserver();
+    auto observer = new fml::FlutterMapObserver();
     observer->on_map_change = on_map_change;
 
     return observer;
@@ -102,37 +119,6 @@ mbgl_tile_server_options_t tile_server_options_map_tiler_create()
 {
     auto options = TileServerOptions::MapTilerConfiguration();
     return new TileServerOptions(options);
-}
-
-mbgl_map_t map_create(mbgl_run_loop_t run_loop,
-    mbgl_headless_frontend_t frontend,
-    mbgl_map_observer_t observer, uint32_t map_mode,
-    float pixel_ratio, char* api_key,
-    mbgl_tile_server_options_t tile_server_options)
-{
-    auto frontend_ = static_cast<HeadlessFrontend*>(frontend);
-    auto options_ = static_cast<TileServerOptions*>(tile_server_options);
-    auto observer_ = static_cast<mbgl::MapObserver*>(observer);
-
-    std::promise<mbgl::Map*> p;
-
-    auto _run_loop = static_cast<mbgl::util::RunLoop*>(run_loop);
-    _run_loop->invoke([&] {
-        auto map = new Map(
-            *frontend_, *observer_,
-            MapOptions()
-                .withMapMode(static_cast<MapMode>(map_mode))
-                .withSize(frontend_->getSize())
-                .withPixelRatio(pixel_ratio),
-            ResourceOptions().withApiKey(api_key).withTileServerOptions(*options_));
-
-        p.set_value(map);
-    });
-
-    auto future = p.get_future();
-    future.wait();
-
-    return future.get();
 }
 
 void map_set_style(mbgl_run_loop_t run_loop, mbgl_map_t map, char* style)
@@ -159,15 +145,14 @@ void map_jump_to(mbgl_run_loop_t run_loop, mbgl_map_t map, double lat, double lo
 
     // std::promise<void> p;
 
-
     // _run_loop->schedule([&] {
-        std::cout << "JUMPING HAHA" << std::endl;
-    
-        _map->jumpTo(CameraOptions()
-                         .withCenter(LatLng { lat, lon })
-                         .withZoom(zoom)
-                         .withBearing(bearing)
-                         .withPitch(pitch));
+    std::cout << "JUMPING HAHA" << std::endl;
+
+    _map->jumpTo(CameraOptions()
+                     .withCenter(LatLng { lat, lon })
+                     .withZoom(zoom)
+                     .withBearing(bearing)
+                     .withPitch(pitch));
 
     //     p.set_value();
     // });

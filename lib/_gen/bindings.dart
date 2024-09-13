@@ -30,91 +30,59 @@ class MapLibreFlutterMapBindings {
   late final _test_function = _test_functionPtr.asFunction<int Function()>();
 
   maplibre_thread_data start_run_loop_thread(
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> _observer,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+        _invalidateFlutterTicker,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> _onFrameRendered,
   ) {
     return _start_run_loop_thread(
-      _observer,
+      _invalidateFlutterTicker,
+      _onFrameRendered,
     );
   }
 
   late final _start_run_loop_threadPtr = _lookup<
           ffi.NativeFunction<
               maplibre_thread_data Function(
+                  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
                   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>>(
       'start_run_loop_thread');
   late final _start_run_loop_thread = _start_run_loop_threadPtr.asFunction<
       maplibre_thread_data Function(
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>();
 
-  ffi.Pointer<ffi.Uint8> headless_frontend_get_image_data_ptr(
-    mbgl_headless_frontend_t frontend,
+  ffi.Pointer<ffi.Uint8> flutter_renderer_frontend_get_image_data_ptr(
+    fml_flutter_renderer_frontend_t frontend,
   ) {
-    return _headless_frontend_get_image_data_ptr(
+    return _flutter_renderer_frontend_get_image_data_ptr(
       frontend,
     );
   }
 
-  late final _headless_frontend_get_image_data_ptrPtr = _lookup<
+  late final _flutter_renderer_frontend_get_image_data_ptrPtr = _lookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Uint8> Function(mbgl_headless_frontend_t)>>(
-      'headless_frontend_get_image_data_ptr');
-  late final _headless_frontend_get_image_data_ptr =
-      _headless_frontend_get_image_data_ptrPtr.asFunction<
-          ffi.Pointer<ffi.Uint8> Function(mbgl_headless_frontend_t)>();
+              ffi.Pointer<ffi.Uint8> Function(
+                  fml_flutter_renderer_frontend_t)>>(
+      'flutter_renderer_frontend_get_image_data_ptr');
+  late final _flutter_renderer_frontend_get_image_data_ptr =
+      _flutter_renderer_frontend_get_image_data_ptrPtr.asFunction<
+          ffi.Pointer<ffi.Uint8> Function(fml_flutter_renderer_frontend_t)>();
 
-  void headless_frontend_render_frame(
-    mbgl_run_loop_t run_loop,
-    mbgl_headless_frontend_t frontend,
+  void flutter_renderer_frontend_render_frame(
+    fml_flutter_renderer_frontend_t frontend,
   ) {
-    return _headless_frontend_render_frame(
-      run_loop,
+    return _flutter_renderer_frontend_render_frame(
       frontend,
     );
   }
 
-  late final _headless_frontend_render_framePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(mbgl_run_loop_t,
-              mbgl_headless_frontend_t)>>('headless_frontend_render_frame');
-  late final _headless_frontend_render_frame =
-      _headless_frontend_render_framePtr.asFunction<
-          void Function(mbgl_run_loop_t, mbgl_headless_frontend_t)>();
-
-  mbgl_map_observer_t map_observer_create(
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> on_map_change,
-  ) {
-    return _map_observer_create(
-      on_map_change,
-    );
-  }
-
-  late final _map_observer_createPtr = _lookup<
-          ffi.NativeFunction<
-              mbgl_map_observer_t Function(
-                  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>>(
-      'map_observer_create');
-  late final _map_observer_create = _map_observer_createPtr.asFunction<
-      mbgl_map_observer_t Function(
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>();
-
-  void map_set_style(
-    mbgl_run_loop_t run_loop,
-    mbgl_map_t map,
-    ffi.Pointer<ffi.Char> style,
-  ) {
-    return _map_set_style(
-      run_loop,
-      map,
-      style,
-    );
-  }
-
-  late final _map_set_stylePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(mbgl_run_loop_t, mbgl_map_t,
-              ffi.Pointer<ffi.Char>)>>('map_set_style');
-  late final _map_set_style = _map_set_stylePtr.asFunction<
-      void Function(mbgl_run_loop_t, mbgl_map_t, ffi.Pointer<ffi.Char>)>();
+  late final _flutter_renderer_frontend_render_framePtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Void Function(fml_flutter_renderer_frontend_t)>>(
+      'flutter_renderer_frontend_render_frame');
+  late final _flutter_renderer_frontend_render_frame =
+      _flutter_renderer_frontend_render_framePtr
+          .asFunction<void Function(fml_flutter_renderer_frontend_t)>();
 
   void map_jump_to(
     mbgl_run_loop_t run_loop,
@@ -240,15 +208,14 @@ final class _opaque_pthread_t extends ffi.Struct {
 final class maplibre_thread_data extends ffi.Struct {
   external mbgl_run_loop_t run_loop;
 
-  external mbgl_headless_frontend_t frontend;
+  external fml_flutter_renderer_frontend_t frontend;
 
   external mbgl_map_t map;
 }
 
 typedef mbgl_run_loop_t = ffi.Pointer<ffi.Void>;
-typedef mbgl_headless_frontend_t = ffi.Pointer<ffi.Void>;
+typedef fml_flutter_renderer_frontend_t = ffi.Pointer<ffi.Void>;
 typedef mbgl_map_t = ffi.Pointer<ffi.Void>;
-typedef mbgl_map_observer_t = ffi.Pointer<ffi.Void>;
 
 const int __WORDSIZE = 64;
 
