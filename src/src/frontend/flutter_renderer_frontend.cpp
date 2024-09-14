@@ -155,6 +155,11 @@ void FlutterRendererFrontend::asyncRenderFrame() {
     asyncInvalidate.send();
 }
 
+    void FlutterRendererFrontend::reduceMemoryUse() {
+        if (!renderer) return;
+        renderer->reduceMemoryUse();
+    }
+
 std::optional<mbgl::TransformState> FlutterRendererFrontend::getTransformState() const {
     if (updateParameters) {
         return updateParameters->transformState;

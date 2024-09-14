@@ -43,5 +43,6 @@ EXTERNC void MAPLIBRE_EXPORT flutter_renderer_frontend_render_frame(fml_flutter_
 // EXTERNC void MAPLIBRE_EXPORT map_set_style(mbgl_run_loop_t run_loop, mbgl_map_t map, char* style);
 
 EXTERNC void MAPLIBRE_EXPORT map_jump_to(mbgl_run_loop_t run_loop, mbgl_map_t map, double lat, double lon, double zoom, double bearing, double pitch);
+EXTERNC void MAPLIBRE_EXPORT reduceMemory(fml_flutter_renderer_frontend_t frontend);
 
 #undef EXTERNC

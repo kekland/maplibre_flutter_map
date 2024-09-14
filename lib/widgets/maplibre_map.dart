@@ -49,7 +49,7 @@ FlutterTextureRegistryProxy getFlutterTextureRegistryProxyInstance() {
 }
 
 class _MapLibreMapLayerState extends State<MapLibreMapLayer>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final BasicFlutterTexture _texture;
   int? _textureId;
   Ticker? _ticker;
@@ -60,12 +60,16 @@ class _MapLibreMapLayerState extends State<MapLibreMapLayer>
 
   final bindings = MapLibreFlutterMapBindings(DynamicLibrary.process());
 
+  void didHaveMemoryPressure() {
+    // LAST CHECK
+  }
+
   var _shouldRender = false;
   var _lastTime = 0;
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addObserver(this);
     // _ticker = createTicker((elapsed) {
     //   print('tick');
 
@@ -110,14 +114,12 @@ class _MapLibreMapLayerState extends State<MapLibreMapLayer>
       4,
     );
 
-    getFlutterTextureRegistryProxyInstance()
-        .textureFrameAvailableWithTextureId_(_textureId!);
+    getFlutterTextureRegistryProxyInstance().textureFrameAvailableWithTextureId_(_textureId!);
   }
 
   void _spawn() async {
     _texture = BasicFlutterTexture.alloc().init();
-    _textureId = getFlutterTextureRegistryProxyInstance()
-        .registerTextureWithTexture_(_texture);
+    _textureId = getFlutterTextureRegistryProxyInstance().registerTextureWithTexture_(_texture);
 
     final data = bindings.start_run_loop_thread(
       NativeCallable<Void Function()>.listener(() {
@@ -156,6 +158,7 @@ class _MapLibreMapLayerState extends State<MapLibreMapLayer>
   @override
   void dispose() {
     // _map?.close();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

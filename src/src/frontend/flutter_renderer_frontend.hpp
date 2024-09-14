@@ -47,6 +47,7 @@ public:
     mbgl::PremultipliedImage readStillImage();
     void renderFrame();
     void asyncRenderFrame();
+    void reduceMemoryUse();
 
     std::optional<mbgl::TransformState> getTransformState() const;
 

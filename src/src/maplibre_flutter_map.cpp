@@ -160,3 +160,9 @@ void map_jump_to(mbgl_run_loop_t run_loop, mbgl_map_t map, double lat, double lo
     // auto future = p.get_future();
     // future.wait();
 }
+
+void reduceMemory(fml_flutter_renderer_frontend_t frontend)
+{
+    auto frontend_ = static_cast<fml::FlutterRendererFrontend*>(frontend);
+    frontend_->reduceMemoryUse();
+}
