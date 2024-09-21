@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:maplibre_flutter_map/_gen/bindings.dart';
 
 export 'map.dart';

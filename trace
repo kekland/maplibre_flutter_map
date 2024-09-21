@@ -1,0 +1,176 @@
+* thread #1, queue = 'com.apple.main-thread', stop reason = signal SIGSTOP
+  * frame #0: 0x000000018f352170 libsystem_kernel.dylib`semaphore_wait_trap + 8
+    frame #1: 0x000000018f1e2984 libdispatch.dylib`_dispatch_sema4_wait + 28
+    frame #2: 0x000000018f1e3034 libdispatch.dylib`_dispatch_semaphore_wait_slow + 132
+    frame #3: 0x0000000104521484 libclang_rt.tsan_osx_dynamic.dylib`wrap_dispatch_semaphore_wait + 164
+    frame #4: 0x00000001996f3144 Metal`-[_MTLCommandBuffer initWithQueue:retainedReferences:synchronousDebugMode:] + 188
+    frame #5: 0x00000001ae40ca80 IOGPU`-[IOGPUMetalCommandBuffer initWithQueue:retainedReferences:synchronousDebugMode:] + 108
+    frame #6: 0x00000001e967a0ac AGXMetalG15X_B0`-[AGXG15XFamilyCommandBuffer initWithQueue:retainedReferences:] + 68
+    frame #7: 0x00000001e967c4f4 AGXMetalG15X_B0`-[AGXG15XFamilyCommandQueue commandBuffer] + 44
+    frame #8: 0x000000018fbfa98c MetalTools`-[MTLDebugCommandQueue commandBuffer] + 44
+    frame #9: 0x0000000100c23cd8 test`mbgl::mtl::OffscreenTextureResource::bind() at NSObject.hpp:216:16
+    frame #10: 0x0000000100c23cc8 test`mbgl::mtl::OffscreenTextureResource::bind() [inlined] MTL::CommandQueue::commandBuffer(this=0x000000010ab03340) at MTLCommandQueue.hpp:70:12
+    frame #11: 0x0000000100c23cbc test`mbgl::mtl::OffscreenTextureResource::bind(this=0x000000010ad1de20) at offscreen_texture.cpp:58:79
+    frame #12: 0x0000000100366a20 test`mbgl::mtl::HeadlessRenderableResource::bind(this=0x0000000109d0c080) at headless_backend.cpp:26:80
+    frame #13: 0x0000000100c4ceb8 test`mbgl::mtl::RenderPass::RenderPass(this=0x0000000111e00e00, commandEncoder_=0x00000001113022f0, name="main buffer", descriptor=0x000000016fdf5998) at render_pass.cpp:18:14
+    frame #14: 0x0000000100c4dfc8 test`mbgl::mtl::RenderPass::RenderPass(this=0x0000000111e00e00, commandEncoder_=0x00000001113022f0, name="main buffer", descriptor=0x000000016fdf5998) at render_pass.cpp:15:39
+    frame #15: 0x0000000100be7ffc test`std::__1::__unique_if<mbgl::mtl::RenderPass>::__unique_single std::__1::make_unique[abi:ue170006]<mbgl::mtl::RenderPass, mbgl::mtl::CommandEncoder&, char const*&, mbgl::gfx::RenderPassDescriptor const&>(__args=0x00000001113022f0, __args=0x000000016fdf5938, __args=0x000000016fdf5998) at unique_ptr.h:689:30
+    frame #16: 0x0000000100be7f9c test`mbgl::mtl::CommandEncoder::createRenderPass(this=0x00000001113022f0, name="main buffer", descriptor=0x000000016fdf5998) at command_encoder.cpp:28:12
+    frame #17: 0x00000001006f1070 test`mbgl::Renderer::Impl::render(mbgl::RenderTree const&, std::__1::shared_ptr<mbgl::UpdateParameters> const&)::$_8::operator()(this=0x000000016fdf5c48) const at renderer_impl.cpp:361:57
+    frame #18: 0x00000001006f0324 test`mbgl::Renderer::Impl::render(this=0x000000010a509000, renderTree=0x000000010ac11a60, updateParameters=std::__1::shared_ptr<mbgl::UpdateParameters>::element_type @ 0x000000010b37e418 strong=2 weak=1) at renderer_impl.cpp:500:5
+    frame #19: 0x00000001006eb3f0 test`mbgl::Renderer::render(this=0x0000000109e01960, updateParameters=std::__1::shared_ptr<mbgl::UpdateParameters>::element_type @ 0x000000010b37e418 strong=2 weak=1) at renderer.cpp:37:15
+    frame #20: 0x000000010000d6cc test`fml::FlutterRendererFrontend::renderFrame(this=0x000000010aa03410) at flutter_renderer_frontend.cpp:154:19
+    frame #21: 0x0000000100012950 test`fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0::operator()(this=0x0000000109f03220) const at flutter_renderer_frontend.cpp:32:32
+    frame #22: 0x00000001000128ec test`decltype(std::declval<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0&>()()) std::__1::__invoke[abi:ue170006]<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0&>(__f=0x0000000109f03220) at invoke.h:340:25
+    frame #23: 0x0000000100012850 test`void std::__1::__invoke_void_return_wrapper<void, true>::__call[abi:ue170006]<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0&>(__args=0x0000000109f03220) at invoke.h:415:5
+    frame #24: 0x00000001000127fc test`std::__1::__function::__alloc_func<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0, std::__1::allocator<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0>, void ()>::operator()[abi:ue170006](this=0x0000000109f03220) at function.h:193:16
+    frame #25: 0x0000000100010394 test`std::__1::__function::__func<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0, std::__1::allocator<fml::FlutterRendererFrontend::FlutterRendererFrontend(mbgl::Size, float, mbgl::gfx::Renderable::SwapBehaviour, mbgl::gfx::ContextMode, std::__1::optional<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>> const&, std::__1::function<void ()>)::$_0>, void ()>::operator()(this=0x0000000109f03218) at function.h:364:12
+    frame #26: 0x000000010000f6ec test`std::__1::__function::__value_func<void ()>::operator()[abi:ue170006](this=0x0000000109f03218) const at function.h:518:16
+    frame #27: 0x000000010000c924 test`std::__1::function<void ()>::operator()(this=0x0000000109f03218) const at function.h:1169:12
+    frame #28: 0x0000000100367adc test`mbgl::util::AsyncTask::Impl::asyncCallback(handle=0x000000010a206b00) at async_task.cpp:40:53
+    frame #29: 0x000000010368e4a8 libuv.1.dylib`uv__async_io + 268
+    frame #30: 0x000000010369e164 libuv.1.dylib`uv__io_poll + 1408
+    frame #31: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #32: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x000000016fdfeb18) at run_loop.cpp:139:5
+    frame #33: 0x000000010002a81c test`main at main.cpp:70:14
+    frame #34: 0x000000018f00a0e0 dyld`start + 2360
+  thread #2
+    frame #0: 0x000000018f353ea4 libsystem_kernel.dylib`__workq_kernreturn + 8
+  thread #3
+    frame #0: 0x000000018f353ea4 libsystem_kernel.dylib`__workq_kernreturn + 8
+  thread #4
+    frame #0: 0x000000018f3557e8 libsystem_kernel.dylib`__semwait_signal + 8
+    frame #1: 0x000000018f236568 libsystem_c.dylib`nanosleep + 220
+    frame #2: 0x000000018f236480 libsystem_c.dylib`usleep + 68
+    frame #3: 0x0000000104501028 libclang_rt.tsan_osx_dynamic.dylib`__tsan::BackgroundThread(void*) + 192
+    frame #4: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #5, name = 'org.maplibre.mbgl.Worker 1'
+    frame #0: 0x000000018f3559ec libsystem_kernel.dylib`__psynch_cvwait + 8
+    frame #1: 0x000000018f39355c libsystem_pthread.dylib`_pthread_cond_wait + 1228
+    frame #2: 0x000000010451f9c8 libclang_rt.tsan_osx_dynamic.dylib`__tsan::call_pthread_cancel_with_cleanup(int (*)(void*), void (*)(void*), void*) + 72
+    frame #3: 0x00000001044d0ca0 libclang_rt.tsan_osx_dynamic.dylib`wrap_pthread_cond_wait + 440
+    frame #4: 0x000000018f2b8b14 libc++.1.dylib`std::__1::condition_variable::wait(std::__1::unique_lock<std::__1::mutex>&) + 28
+    frame #5: 0x0000000100b188b8 test`mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0::operator()(this=0x0000000109d05fa8) const at thread_pool.cpp:40:29
+    frame #6: 0x0000000100b18710 test`decltype(std::declval<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>()()) std::__1::__invoke[abi:ue170006]<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__f=0x0000000109d05fa8) at invoke.h:340:25
+    frame #7: 0x0000000100b186ec test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__t=size=2, (null)=__tuple_indices<> @ 0x000000017002af2f) at thread.h:227:5
+    frame #8: 0x0000000100b183fc test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>>(__vp=0x0000000109d05fa0) at thread.h:238:5
+    frame #9: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #10: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #6, name = 'org.maplibre.mbgl.Worker 2'
+    frame #0: 0x000000018f3559ec libsystem_kernel.dylib`__psynch_cvwait + 8
+    frame #1: 0x000000018f39355c libsystem_pthread.dylib`_pthread_cond_wait + 1228
+    frame #2: 0x000000010451f9c8 libclang_rt.tsan_osx_dynamic.dylib`__tsan::call_pthread_cancel_with_cleanup(int (*)(void*), void (*)(void*), void*) + 72
+    frame #3: 0x00000001044d0ca0 libclang_rt.tsan_osx_dynamic.dylib`wrap_pthread_cond_wait + 440
+    frame #4: 0x000000018f2b8b14 libc++.1.dylib`std::__1::condition_variable::wait(std::__1::unique_lock<std::__1::mutex>&) + 28
+    frame #5: 0x0000000100b188b8 test`mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0::operator()(this=0x0000000109d05f88) const at thread_pool.cpp:40:29
+    frame #6: 0x0000000100b18710 test`decltype(std::declval<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>()()) std::__1::__invoke[abi:ue170006]<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__f=0x0000000109d05f88) at invoke.h:340:25
+    frame #7: 0x0000000100b186ec test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__t=size=2, (null)=__tuple_indices<> @ 0x00000001700b6f2f) at thread.h:227:5
+    frame #8: 0x0000000100b183fc test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>>(__vp=0x0000000109d05f80) at thread.h:238:5
+    frame #9: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #10: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #7, name = 'org.maplibre.mbgl.Worker 3'
+    frame #0: 0x000000018f3559ec libsystem_kernel.dylib`__psynch_cvwait + 8
+    frame #1: 0x000000018f39355c libsystem_pthread.dylib`_pthread_cond_wait + 1228
+    frame #2: 0x000000010451f9c8 libclang_rt.tsan_osx_dynamic.dylib`__tsan::call_pthread_cancel_with_cleanup(int (*)(void*), void (*)(void*), void*) + 72
+    frame #3: 0x00000001044d0ca0 libclang_rt.tsan_osx_dynamic.dylib`wrap_pthread_cond_wait + 440
+    frame #4: 0x000000018f2b8b14 libc++.1.dylib`std::__1::condition_variable::wait(std::__1::unique_lock<std::__1::mutex>&) + 28
+    frame #5: 0x0000000100b188b8 test`mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0::operator()(this=0x0000000109d05f68) const at thread_pool.cpp:40:29
+    frame #6: 0x0000000100b18710 test`decltype(std::declval<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>()()) std::__1::__invoke[abi:ue170006]<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__f=0x0000000109d05f68) at invoke.h:340:25
+    frame #7: 0x0000000100b186ec test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__t=size=2, (null)=__tuple_indices<> @ 0x0000000170142f2f) at thread.h:227:5
+    frame #8: 0x0000000100b183fc test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>>(__vp=0x0000000109d05f60) at thread.h:238:5
+    frame #9: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #10: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #8, name = 'org.maplibre.mbgl.Worker 4'
+    frame #0: 0x000000018f3559ec libsystem_kernel.dylib`__psynch_cvwait + 8
+    frame #1: 0x000000018f39355c libsystem_pthread.dylib`_pthread_cond_wait + 1228
+    frame #2: 0x000000010451f9c8 libclang_rt.tsan_osx_dynamic.dylib`__tsan::call_pthread_cancel_with_cleanup(int (*)(void*), void (*)(void*), void*) + 72
+    frame #3: 0x00000001044d0ca0 libclang_rt.tsan_osx_dynamic.dylib`wrap_pthread_cond_wait + 440
+    frame #4: 0x000000018f2b8b14 libc++.1.dylib`std::__1::condition_variable::wait(std::__1::unique_lock<std::__1::mutex>&) + 28
+    frame #5: 0x0000000100b188b8 test`mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0::operator()(this=0x0000000109d05f48) const at thread_pool.cpp:40:29
+    frame #6: 0x0000000100b18710 test`decltype(std::declval<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>()()) std::__1::__invoke[abi:ue170006]<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__f=0x0000000109d05f48) at invoke.h:340:25
+    frame #7: 0x0000000100b186ec test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__t=size=2, (null)=__tuple_indices<> @ 0x00000001701cef2f) at thread.h:227:5
+    frame #8: 0x0000000100b183fc test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>>(__vp=0x0000000109d05f40) at thread.h:238:5
+    frame #9: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #10: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #9, name = 'org.maplibre.mbgl.AssetFileSource'
+    frame #0: 0x000000018f358340 libsystem_kernel.dylib`kevent + 8
+    frame #1: 0x000000010369dedc libuv.1.dylib`uv__io_poll + 760
+    frame #2: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #3: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x000000017025adc8) at run_loop.cpp:139:5
+    frame #4: 0x000000010029f5ac test`mbgl::util::Thread<mbgl::AssetFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(this=0x000000010ad04568)>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()::operator()() at thread.hpp:65:23
+    frame #5: 0x000000010029f4c0 test`decltype(std::declval<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>()()) std::__1::__invoke[abi:ue170006]<mbgl::util::Thread<mbgl::AssetFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__f=0x000000010ad04568) at invoke.h:340:25
+    frame #6: 0x000000010029f49c test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::AssetFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__t=size=2, (null)=__tuple_indices<> @ 0x000000017025af2f) at thread.h:227:5
+    frame #7: 0x000000010029f0bc test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::AssetFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>>(__vp=0x000000010ad04560) at thread.h:238:5
+    frame #8: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #9: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #10, name = 'org.maplibre.mbgl.OnlineFileSource'
+    frame #0: 0x000000018f358340 libsystem_kernel.dylib`kevent + 8
+    frame #1: 0x000000010369dedc libuv.1.dylib`uv__io_poll + 760
+    frame #2: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #3: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x00000001702e6dc8) at run_loop.cpp:139:5
+    frame #4: 0x000000010034f7b4 test`mbgl::util::Thread<mbgl::OnlineFileSourceThread>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(this=0x000000010ad04448)>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()::operator()() at thread.hpp:65:23
+    frame #5: 0x000000010034f6c8 test`decltype(std::declval<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>()()) std::__1::__invoke[abi:ue170006]<mbgl::util::Thread<mbgl::OnlineFileSourceThread>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__f=0x000000010ad04448) at invoke.h:340:25
+    frame #6: 0x000000010034f6a4 test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::OnlineFileSourceThread>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__t=size=2, (null)=__tuple_indices<> @ 0x00000001702e6f2f) at thread.h:227:5
+    frame #7: 0x000000010034f2c4 test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::OnlineFileSourceThread>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>>(__vp=0x000000010ad04440) at thread.h:238:5
+    frame #8: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #9: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #11, name = 'org.maplibre.mbgl.DatabaseFileSource'
+    frame #0: 0x000000018f358340 libsystem_kernel.dylib`kevent + 8
+    frame #1: 0x000000010369dedc libuv.1.dylib`uv__io_poll + 760
+    frame #2: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #3: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x0000000170372dc8) at run_loop.cpp:139:5
+    frame #4: 0x00000001002afe68 test`mbgl::util::Thread<mbgl::DatabaseFileSourceThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>(this=0x000000010a206a88)>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>&&)::'lambda'()::operator()() at thread.hpp:65:23
+    frame #5: 0x00000001002afd7c test`decltype(std::declval<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>()()) std::__1::__invoke[abi:ue170006]<mbgl::util::Thread<mbgl::DatabaseFileSourceThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>&&)::'lambda'()>(__f=0x000000010a206a88) at invoke.h:340:25
+    frame #6: 0x00000001002afd58 test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::DatabaseFileSourceThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>&&)::'lambda'()>(__t=size=2, (null)=__tuple_indices<> @ 0x0000000170372f2f) at thread.h:227:5
+    frame #7: 0x00000001002af978 test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::DatabaseFileSourceThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>&&)::'lambda'()>>(__vp=0x000000010a206a80) at thread.h:238:5
+    frame #8: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #9: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #12, name = 'org.maplibre.mbgl.LocalFileSource'
+    frame #0: 0x000000018f358340 libsystem_kernel.dylib`kevent + 8
+    frame #1: 0x000000010369dedc libuv.1.dylib`uv__io_poll + 760
+    frame #2: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #3: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x00000001703fedc8) at run_loop.cpp:139:5
+    frame #4: 0x00000001002d114c test`mbgl::util::Thread<mbgl::LocalFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(this=0x000000010ad04328)>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()::operator()() at thread.hpp:65:23
+    frame #5: 0x00000001002d1060 test`decltype(std::declval<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>()()) std::__1::__invoke[abi:ue170006]<mbgl::util::Thread<mbgl::LocalFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__f=0x000000010ad04328) at invoke.h:340:25
+    frame #6: 0x00000001002d103c test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::LocalFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__t=size=2, (null)=__tuple_indices<> @ 0x00000001703fef2f) at thread.h:227:5
+    frame #7: 0x00000001002d0c5c test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::LocalFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>>(__vp=0x000000010ad04320) at thread.h:238:5
+    frame #8: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #9: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #13, name = 'org.maplibre.mbgl.MBTilesFileSource'
+    frame #0: 0x000000018f358340 libsystem_kernel.dylib`kevent + 8
+    frame #1: 0x000000010369dedc libuv.1.dylib`uv__io_poll + 760
+    frame #2: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #3: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x000000017048adc8) at run_loop.cpp:139:5
+    frame #4: 0x00000001002fff18 test`mbgl::util::Thread<mbgl::MBTilesFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(this=0x000000010ad04268)>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()::operator()() at thread.hpp:65:23
+    frame #5: 0x00000001002ffe2c test`decltype(std::declval<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>()()) std::__1::__invoke[abi:ue170006]<mbgl::util::Thread<mbgl::MBTilesFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__f=0x000000010ad04268) at invoke.h:340:25
+    frame #6: 0x00000001002ffe08 test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::MBTilesFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>(__t=size=2, (null)=__tuple_indices<> @ 0x000000017048af2f) at thread.h:227:5
+    frame #7: 0x00000001002ffa28 test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::MBTilesFileSource::Impl>::Thread<std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<mbgl::ResourceOptions, mbgl::ClientOptions>&&)::'lambda'()>>(__vp=0x000000010ad04260) at thread.h:238:5
+    frame #8: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #9: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #14, name = 'org.maplibre.mbgl.ResourceLoaderThread'
+    frame #0: 0x000000018f358340 libsystem_kernel.dylib`kevent + 8
+    frame #1: 0x000000010369dedc libuv.1.dylib`uv__io_poll + 760
+    frame #2: 0x000000010368e93c libuv.1.dylib`uv_run + 272
+    frame #3: 0x0000000100368c88 test`mbgl::util::RunLoop::run(this=0x0000000170516dc8) at run_loop.cpp:139:5
+    frame #4: 0x00000001002e5ec0 test`mbgl::util::Thread<mbgl::MainResourceLoaderThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>>(this=0x000000010ae01548)>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>&&)::'lambda'()::operator()() at thread.hpp:65:23
+    frame #5: 0x00000001002e5dd4 test`decltype(std::declval<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>>()()) std::__1::__invoke[abi:ue170006]<mbgl::util::Thread<mbgl::MainResourceLoaderThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>&&)::'lambda'()>(__f=0x000000010ae01548) at invoke.h:340:25
+    frame #6: 0x00000001002e5db0 test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::MainResourceLoaderThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>&&)::'lambda'()>(__t=size=2, (null)=__tuple_indices<> @ 0x0000000170516f2f) at thread.h:227:5
+    frame #7: 0x00000001002e59d0 test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::util::Thread<mbgl::MainResourceLoaderThread>::Thread<std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>>(std::__1::function<void ()>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::tuple<std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>, std::__1::shared_ptr<mbgl::FileSource>>&&)::'lambda'()>>(__vp=0x000000010ae01540) at thread.h:238:5
+    frame #8: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #9: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #15
+    frame #0: 0x000000018f353ea4 libsystem_kernel.dylib`__workq_kernreturn + 8
+  thread #16, name = 'org.maplibre.mbgl.Worker 1'
+    frame #0: 0x000000018f3559ec libsystem_kernel.dylib`__psynch_cvwait + 8
+    frame #1: 0x000000018f39355c libsystem_pthread.dylib`_pthread_cond_wait + 1228
+    frame #2: 0x000000010451f9c8 libclang_rt.tsan_osx_dynamic.dylib`__tsan::call_pthread_cancel_with_cleanup(int (*)(void*), void (*)(void*), void*) + 72
+    frame #3: 0x00000001044d0ca0 libclang_rt.tsan_osx_dynamic.dylib`wrap_pthread_cond_wait + 440
+    frame #4: 0x000000018f2b8b14 libc++.1.dylib`std::__1::condition_variable::wait(std::__1::unique_lock<std::__1::mutex>&) + 28
+    frame #5: 0x0000000100b188b8 test`mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0::operator()(this=0x0000000109d13aa8) const at thread_pool.cpp:40:29
+    frame #6: 0x0000000100b18710 test`decltype(std::declval<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>()()) std::__1::__invoke[abi:ue170006]<mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__f=0x0000000109d13aa8) at invoke.h:340:25
+    frame #7: 0x0000000100b186ec test`void std::__1::__thread_execute[abi:ue170006]<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>(__t=size=2, (null)=__tuple_indices<> @ 0x000000017062ef2f) at thread.h:227:5
+    frame #8: 0x0000000100b183fc test`void* std::__1::__thread_proxy[abi:ue170006]<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct>>, mbgl::ThreadedSchedulerBase::makeSchedulerThread(unsigned long)::$_0>>(__vp=0x0000000109d13aa0) at thread.h:238:5
+    frame #9: 0x00000001044d05b0 libclang_rt.tsan_osx_dynamic.dylib`__tsan_thread_start_func + 144
+    frame #10: 0x000000018f392f94 libsystem_pthread.dylib`_pthread_start + 136
+  thread #17
+    frame #0: 0x000000018f353ea4 libsystem_kernel.dylib`__workq_kernreturn + 8

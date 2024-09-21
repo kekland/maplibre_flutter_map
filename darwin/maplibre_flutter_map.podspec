@@ -20,7 +20,7 @@ A new Flutter plugin project.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
 
-  s.ios.frameworks = 'CoreLocation', 'SystemConfiguration', 'Metal', 'MetalKit'
+  s.ios.frameworks = 'CoreLocation', 'SystemConfiguration', 'Metal', 'MetalKit', 'CoreImage'
 
   s.ios.vendored_libraries = 'Libraries/ios/libmaplibre_flutter_map_ios.dylib'
   s.ios.pod_target_xcconfig = { "OTHER_LDFLAGS" => "-force_load $(PODS_TARGET_SRCROOT)/Libraries/ios/libmaplibre_flutter_map_ios.dylib" }

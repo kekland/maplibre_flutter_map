@@ -8,9 +8,9 @@ bazel_dep(name = "rules_swift", version = "2.1.1", repo_name = "build_bazel_rule
 bazel_dep(name = "rules_xcodeproj", version = "2.5.2")
 bazel_dep(name = "aspect_rules_js", version = "2.0.0")
 bazel_dep(name = "rules_nodejs", version = "6.2.0")
-bazel_dep(name = "rules_java", version = "7.7.0")
-bazel_dep(name = "rules_android", version = "0.5.1")
-bazel_dep(name = "rules_android_ndk", version = "0.1.2")
+# bazel_dep(name = "rules_java", version = "7.7.0")
+# bazel_dep(name = "rules_android", version = "0.5.1")
+# bazel_dep(name = "rules_android_ndk", version = "0.1.2")
 
 node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node", dev_dependency = True)
 node.toolchain(node_version = "20.14.0")
@@ -73,6 +73,6 @@ darwin_config(
 
 # EXTENSIONS HERE
 
-android_ndk_repository = use_repo_rule("@rules_android_ndk//:rules.bzl", "android_ndk_repository")
-android_ndk_repository(name = "androidndk")
-register_toolchains("@androidndk//:all")
+# android_ndk_repository = use_repo_rule("@rules_android_ndk//:rules.bzl", "android_ndk_repository")
+# android_ndk_repository(name = "androidndk")
+# register_toolchains("@androidndk//:all")

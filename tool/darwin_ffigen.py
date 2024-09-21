@@ -7,7 +7,7 @@ import sys
 
 plugin_location = pathlib.Path(__file__).parent.parent
 
-def compile_darwin_objc_headers():
+def run_swiftc(args):
   classes_location = plugin_location / 'darwin' / 'Classes'
 
   flutter_ios_headers_location = plugin_location / 'third-party' / 'engine' / 'shell' / 'platform' / 'darwin' / 'ios' / 'framework' / 'Headers'
@@ -15,17 +15,23 @@ def compile_darwin_objc_headers():
   flutter_darwin_headers_location = plugin_location / 'third-party' / 'engine' / 'shell' / 'platform' / 'darwin' / 'common' / 'framework' / 'Headers'
   flutter_texture_header = flutter_darwin_headers_location / 'FlutterTexture.h'
 
-  output_file = plugin_location / 'build' / 'ffigen' / 'maplibre_flutter_map-Swift.h'
-
   files = list(classes_location.glob('**/*.swift'))
   files = list(filter(lambda file: 'MaplibreFlutterMapPlugin.swift' not in file.name, files))
   joined_files = ' '.join([file.as_posix() for file in files])
 
-  p = subprocess.Popen(shlex.split(f'swiftc -c {joined_files} -module-name maplibre_flutter_map -emit-objc-header-path {output_file} -I {flutter_darwin_headers_location} -import-objc-header {flutter_texture_header}'), cwd=classes_location.as_posix())
+  p = subprocess.Popen(shlex.split(f'swiftc -c {joined_files} -module-name maplibre_flutter_map -I {flutter_darwin_headers_location} -import-objc-header {flutter_texture_header} {args}'), cwd=classes_location.as_posix())
   p.wait()
 
   for file in classes_location.glob('**/*.o'):
     file.unlink()
+
+def compile_darwin_objc_headers():
+  output_file = plugin_location / 'build' / 'ffigen' / 'maplibre_flutter_map-Swift.h'
+  run_swiftc(f'-emit-objc-header-path {output_file}')
+
+def compile_c_compatible_library():
+  output_file = plugin_location / 'build' / 'ffigen' / 'maplibre_flutter_map_library.dylib'
+  run_swiftc(f'-emit-library -o {output_file}')
 
 def run_ffigen():
   print('-' * 80)
@@ -84,6 +90,7 @@ def run_ffigen():
   
 if __name__ == '__main__':
   compile_darwin_objc_headers()
+  compile_c_compatible_library()
   run_ffigen()
   # cleanup_generated_dart_bindings_file()
   # cleanup_generated_objc_bindings_file()

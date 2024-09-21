@@ -6434,6 +6434,7 @@ enum NSCalendarUnit {
   NSCalendarUnitWeekOfYear(8192),
   NSCalendarUnitYearForWeekOfYear(16384),
   NSCalendarUnitNanosecond(32768),
+  NSCalendarUnitDayOfYear(65536),
   NSCalendarUnitCalendar(1048576),
   NSCalendarUnitTimeZone(2097152),
   NSWeekCalendarUnit(256);
@@ -6473,6 +6474,7 @@ enum NSCalendarUnit {
         8192 => NSCalendarUnitWeekOfYear,
         16384 => NSCalendarUnitYearForWeekOfYear,
         32768 => NSCalendarUnitNanosecond,
+        65536 => NSCalendarUnitDayOfYear,
         1048576 => NSCalendarUnitCalendar,
         2097152 => NSCalendarUnitTimeZone,
         256 => NSWeekCalendarUnit,
@@ -6800,6 +6802,16 @@ class NSDateComponents extends objc.NSObject {
     return _objc_msgSend_142(this.pointer, _sel_setYearForWeekOfYear_, value);
   }
 
+  /// dayOfYear
+  int get dayOfYear {
+    return _objc_msgSend_123(this.pointer, _sel_dayOfYear);
+  }
+
+  /// setDayOfYear:
+  set dayOfYear(int value) {
+    return _objc_msgSend_142(this.pointer, _sel_setDayOfYear_, value);
+  }
+
   /// isLeapMonth
   bool get leapMonth {
     return _objc_msgSend_13(this.pointer, _sel_isLeapMonth);
@@ -6995,6 +7007,8 @@ late final _sel_setWeekOfYear_ = objc.registerName("setWeekOfYear:");
 late final _sel_yearForWeekOfYear = objc.registerName("yearForWeekOfYear");
 late final _sel_setYearForWeekOfYear_ =
     objc.registerName("setYearForWeekOfYear:");
+late final _sel_dayOfYear = objc.registerName("dayOfYear");
+late final _sel_setDayOfYear_ = objc.registerName("setDayOfYear:");
 late final _sel_isLeapMonth = objc.registerName("isLeapMonth");
 late final _sel_setLeapMonth_ = objc.registerName("setLeapMonth:");
 late final _sel_date = objc.registerName("date");
@@ -8075,6 +8089,17 @@ class NSNumberFormatter extends NSFormatter {
         _sel_setDefaultFormatterBehavior_, behavior.value);
   }
 
+  /// minimumGroupingDigits
+  int get minimumGroupingDigits {
+    return _objc_msgSend_123(this.pointer, _sel_minimumGroupingDigits);
+  }
+
+  /// setMinimumGroupingDigits:
+  set minimumGroupingDigits(int value) {
+    return _objc_msgSend_142(
+        this.pointer, _sel_setMinimumGroupingDigits_, value);
+  }
+
   /// numberStyle
   NSNumberFormatterStyle get numberStyle {
     final _ret = _objc_msgSend_183(this.pointer, _sel_numberStyle);
@@ -9042,6 +9067,10 @@ final _objc_msgSend_182 = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+late final _sel_minimumGroupingDigits =
+    objc.registerName("minimumGroupingDigits");
+late final _sel_setMinimumGroupingDigits_ =
+    objc.registerName("setMinimumGroupingDigits:");
 late final _sel_numberStyle = objc.registerName("numberStyle");
 final _objc_msgSend_183 = objc.msgSendPointer
     .cast<
@@ -14892,6 +14921,11 @@ class NSURLRequest extends objc.NSObject {
     return _objc_msgSend_13(this.pointer, _sel_requiresDNSSECValidation);
   }
 
+  /// allowsPersistentDNS
+  bool get allowsPersistentDNS {
+    return _objc_msgSend_13(this.pointer, _sel_allowsPersistentDNS);
+  }
+
   /// HTTPMethod
   objc.NSString? get HTTPMethod {
     final _ret = _objc_msgSend_20(this.pointer, _sel_HTTPMethod);
@@ -15175,6 +15209,7 @@ final _objc_msgSend_304 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_requiresDNSSECValidation =
     objc.registerName("requiresDNSSECValidation");
+late final _sel_allowsPersistentDNS = objc.registerName("allowsPersistentDNS");
 late final _sel_HTTPMethod = objc.registerName("HTTPMethod");
 late final _sel_allHTTPHeaderFields = objc.registerName("allHTTPHeaderFields");
 late final _sel_valueForHTTPHeaderField_ =
@@ -23993,6 +24028,16 @@ class NSMutableURLRequest extends NSURLRequest {
         this.pointer, _sel_setRequiresDNSSECValidation_, value);
   }
 
+  /// allowsPersistentDNS
+  bool get allowsPersistentDNS {
+    return _objc_msgSend_13(this.pointer, _sel_allowsPersistentDNS);
+  }
+
+  /// setAllowsPersistentDNS:
+  set allowsPersistentDNS(bool value) {
+    return _objc_msgSend_14(this.pointer, _sel_setAllowsPersistentDNS_, value);
+  }
+
   /// HTTPMethod
   objc.NSString get HTTPMethod {
     final _ret = _objc_msgSend_11(this.pointer, _sel_HTTPMethod);
@@ -24255,6 +24300,8 @@ final _objc_msgSend_471 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, int)>();
 late final _sel_setRequiresDNSSECValidation_ =
     objc.registerName("setRequiresDNSSECValidation:");
+late final _sel_setAllowsPersistentDNS_ =
+    objc.registerName("setAllowsPersistentDNS:");
 late final _sel_setHTTPMethod_ = objc.registerName("setHTTPMethod:");
 late final _sel_setAllHTTPHeaderFields_ =
     objc.registerName("setAllHTTPHeaderFields:");
@@ -36881,271 +36928,6 @@ extension ObjCBlock_ffiVoid_ffiVoid_Int64_CallExtension
 
 late final _sel_unregisterTexture_ = objc.registerName("unregisterTexture:");
 
-/// BasicFlutterTexture
-class BasicFlutterTexture extends objc.NSObject {
-  BasicFlutterTexture._(ffi.Pointer<objc.ObjCObject> pointer,
-      {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
-
-  /// Constructs a [BasicFlutterTexture] that points to the same underlying object as [other].
-  BasicFlutterTexture.castFrom(objc.ObjCObjectBase other)
-      : this._(other.pointer, retain: true, release: true);
-
-  /// Constructs a [BasicFlutterTexture] that wraps the given raw object pointer.
-  BasicFlutterTexture.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
-      {bool retain = false, bool release = false})
-      : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [BasicFlutterTexture].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_0(
-        obj.pointer, _sel_isKindOfClass_, _class_BasicFlutterTexture);
-  }
-
-  /// copyFromBufferWithPointer:width:height:channels:
-  void copyFromBufferWithPointer_width_height_channels_(
-      ffi.Pointer<ffi.Void> pointer, int width, int height, int channels) {
-    _objc_msgSend_645(
-        this.pointer,
-        _sel_copyFromBufferWithPointer_width_height_channels_,
-        pointer,
-        width,
-        height,
-        channels);
-  }
-
-  /// copyPixelBuffer
-  ffi.Pointer<__CVBuffer> copyPixelBuffer() {
-    return _objc_msgSend_646(this.pointer, _sel_copyPixelBuffer);
-  }
-
-  /// init
-  BasicFlutterTexture init() {
-    final _ret = _objc_msgSend_19(this.retainAndReturnPointer(), _sel_init);
-    return BasicFlutterTexture.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// new
-  static BasicFlutterTexture new1() {
-    final _ret = _objc_msgSend_19(_class_BasicFlutterTexture, _sel_new);
-    return BasicFlutterTexture.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static BasicFlutterTexture allocWithZone_(ffi.Pointer<_NSZone> zone) {
-    final _ret =
-        _objc_msgSend_26(_class_BasicFlutterTexture, _sel_allocWithZone_, zone);
-    return BasicFlutterTexture.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// alloc
-  static BasicFlutterTexture alloc() {
-    final _ret = _objc_msgSend_19(_class_BasicFlutterTexture, _sel_alloc);
-    return BasicFlutterTexture.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// cancelPreviousPerformRequestsWithTarget:selector:object:
-  static void cancelPreviousPerformRequestsWithTarget_selector_object_(
-      objc.ObjCObjectBase aTarget,
-      ffi.Pointer<objc.ObjCSelector> aSelector,
-      objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_27(
-        _class_BasicFlutterTexture,
-        _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
-        aTarget.pointer,
-        aSelector,
-        anArgument?.pointer ?? ffi.nullptr);
-  }
-
-  /// cancelPreviousPerformRequestsWithTarget:
-  static void cancelPreviousPerformRequestsWithTarget_(
-      objc.ObjCObjectBase aTarget) {
-    _objc_msgSend_28(_class_BasicFlutterTexture,
-        _sel_cancelPreviousPerformRequestsWithTarget_, aTarget.pointer);
-  }
-
-  /// accessInstanceVariablesDirectly
-  static bool getAccessInstanceVariablesDirectly() {
-    return _objc_msgSend_13(
-        _class_BasicFlutterTexture, _sel_accessInstanceVariablesDirectly);
-  }
-
-  /// keyPathsForValuesAffectingValueForKey:
-  static objc.NSSet keyPathsForValuesAffectingValueForKey_(objc.NSString key) {
-    final _ret = _objc_msgSend_29(_class_BasicFlutterTexture,
-        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
-    return objc.NSSet.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// automaticallyNotifiesObserversForKey:
-  static bool automaticallyNotifiesObserversForKey_(objc.NSString key) {
-    return _objc_msgSend_30(_class_BasicFlutterTexture,
-        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
-  }
-
-  /// classFallbacksForKeyedArchiver
-  static objc.NSArray classFallbacksForKeyedArchiver() {
-    final _ret = _objc_msgSend_31(
-        _class_BasicFlutterTexture, _sel_classFallbacksForKeyedArchiver);
-    return objc.NSArray.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// classForKeyedUnarchiver
-  static objc.ObjCObjectBase classForKeyedUnarchiver() {
-    final _ret = _objc_msgSend_19(
-        _class_BasicFlutterTexture, _sel_classForKeyedUnarchiver);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
-  }
-}
-
-late final _class_BasicFlutterTexture =
-    objc.getClass("maplibre_flutter_map.BasicFlutterTexture");
-late final _sel_copyFromBufferWithPointer_width_height_channels_ =
-    objc.registerName("copyFromBufferWithPointer:width:height:channels:");
-final _objc_msgSend_645 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<ffi.Void>,
-                ffi.Long,
-                ffi.Long,
-                ffi.Long)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<ffi.Void>,
-            int,
-            int,
-            int)>();
-final _objc_msgSend_646 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Pointer<__CVBuffer> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>)>>()
-    .asFunction<
-        ffi.Pointer<__CVBuffer> Function(
-            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
-
-/// FlutterTextureNotifier
-class FlutterTextureNotifier extends objc.NSObject {
-  FlutterTextureNotifier._(ffi.Pointer<objc.ObjCObject> pointer,
-      {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
-
-  /// Constructs a [FlutterTextureNotifier] that points to the same underlying object as [other].
-  FlutterTextureNotifier.castFrom(objc.ObjCObjectBase other)
-      : this._(other.pointer, retain: true, release: true);
-
-  /// Constructs a [FlutterTextureNotifier] that wraps the given raw object pointer.
-  FlutterTextureNotifier.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
-      {bool retain = false, bool release = false})
-      : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [FlutterTextureNotifier].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_0(
-        obj.pointer, _sel_isKindOfClass_, _class_FlutterTextureNotifier);
-  }
-
-  /// notify
-  void notify() {
-    _objc_msgSend_7(this.pointer, _sel_notify);
-  }
-
-  /// init
-  FlutterTextureNotifier init() {
-    final _ret = _objc_msgSend_19(this.retainAndReturnPointer(), _sel_init);
-    return FlutterTextureNotifier.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// new
-  static FlutterTextureNotifier new1() {
-    final _ret = _objc_msgSend_19(_class_FlutterTextureNotifier, _sel_new);
-    return FlutterTextureNotifier.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static FlutterTextureNotifier allocWithZone_(ffi.Pointer<_NSZone> zone) {
-    final _ret = _objc_msgSend_26(
-        _class_FlutterTextureNotifier, _sel_allocWithZone_, zone);
-    return FlutterTextureNotifier.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// alloc
-  static FlutterTextureNotifier alloc() {
-    final _ret = _objc_msgSend_19(_class_FlutterTextureNotifier, _sel_alloc);
-    return FlutterTextureNotifier.castFromPointer(_ret,
-        retain: false, release: true);
-  }
-
-  /// cancelPreviousPerformRequestsWithTarget:selector:object:
-  static void cancelPreviousPerformRequestsWithTarget_selector_object_(
-      objc.ObjCObjectBase aTarget,
-      ffi.Pointer<objc.ObjCSelector> aSelector,
-      objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_27(
-        _class_FlutterTextureNotifier,
-        _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
-        aTarget.pointer,
-        aSelector,
-        anArgument?.pointer ?? ffi.nullptr);
-  }
-
-  /// cancelPreviousPerformRequestsWithTarget:
-  static void cancelPreviousPerformRequestsWithTarget_(
-      objc.ObjCObjectBase aTarget) {
-    _objc_msgSend_28(_class_FlutterTextureNotifier,
-        _sel_cancelPreviousPerformRequestsWithTarget_, aTarget.pointer);
-  }
-
-  /// accessInstanceVariablesDirectly
-  static bool getAccessInstanceVariablesDirectly() {
-    return _objc_msgSend_13(
-        _class_FlutterTextureNotifier, _sel_accessInstanceVariablesDirectly);
-  }
-
-  /// keyPathsForValuesAffectingValueForKey:
-  static objc.NSSet keyPathsForValuesAffectingValueForKey_(objc.NSString key) {
-    final _ret = _objc_msgSend_29(_class_FlutterTextureNotifier,
-        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
-    return objc.NSSet.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// automaticallyNotifiesObserversForKey:
-  static bool automaticallyNotifiesObserversForKey_(objc.NSString key) {
-    return _objc_msgSend_30(_class_FlutterTextureNotifier,
-        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
-  }
-
-  /// classFallbacksForKeyedArchiver
-  static objc.NSArray classFallbacksForKeyedArchiver() {
-    final _ret = _objc_msgSend_31(
-        _class_FlutterTextureNotifier, _sel_classFallbacksForKeyedArchiver);
-    return objc.NSArray.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// classForKeyedUnarchiver
-  static objc.ObjCObjectBase classForKeyedUnarchiver() {
-    final _ret = _objc_msgSend_19(
-        _class_FlutterTextureNotifier, _sel_classForKeyedUnarchiver);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
-  }
-}
-
-late final _class_FlutterTextureNotifier =
-    objc.getClass("maplibre_flutter_map.FlutterTextureNotifier");
-late final _sel_notify = objc.registerName("notify");
-
 /// FlutterTextureRegistryProxy
 class FlutterTextureRegistryProxy extends objc.NSObject {
   FlutterTextureRegistryProxy._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -37171,7 +36953,7 @@ class FlutterTextureRegistryProxy extends objc.NSObject {
 
   /// registerTextureWithTexture:
   int registerTextureWithTexture_(objc.ObjCObjectBase texture) {
-    return _objc_msgSend_647(
+    return _objc_msgSend_645(
         this.pointer, _sel_registerTextureWithTexture_, texture.pointer);
   }
 
@@ -37185,14 +36967,6 @@ class FlutterTextureRegistryProxy extends objc.NSObject {
   void unregisterTextureWithTextureId_(int textureId) {
     _objc_msgSend_5(
         this.pointer, _sel_unregisterTextureWithTextureId_, textureId);
-  }
-
-  /// createTextureNotifierWithTextureId:
-  FlutterTextureNotifier createTextureNotifierWithTextureId_(int textureId) {
-    final _ret = _objc_msgSend_648(
-        this.pointer, _sel_createTextureNotifierWithTextureId_, textureId);
-    return FlutterTextureNotifier.castFromPointer(_ret,
-        retain: true, release: true);
   }
 
   /// init
@@ -37283,7 +37057,7 @@ late final _class_FlutterTextureRegistryProxy =
     objc.getClass("maplibre_flutter_map.FlutterTextureRegistryProxy");
 late final _sel_registerTextureWithTexture_ =
     objc.registerName("registerTextureWithTexture:");
-final _objc_msgSend_647 = objc.msgSendPointer
+final _objc_msgSend_645 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int64 Function(
@@ -37297,16 +37071,252 @@ late final _sel_textureFrameAvailableWithTextureId_ =
     objc.registerName("textureFrameAvailableWithTextureId:");
 late final _sel_unregisterTextureWithTextureId_ =
     objc.registerName("unregisterTextureWithTextureId:");
-late final _sel_createTextureNotifierWithTextureId_ =
-    objc.registerName("createTextureNotifierWithTextureId:");
+
+/// MapLibreFlutterTexture
+class MapLibreFlutterTexture extends objc.NSObject {
+  MapLibreFlutterTexture._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [MapLibreFlutterTexture] that points to the same underlying object as [other].
+  MapLibreFlutterTexture.castFrom(objc.ObjCObjectBase other)
+      : this._(other.pointer, retain: true, release: true);
+
+  /// Constructs a [MapLibreFlutterTexture] that wraps the given raw object pointer.
+  MapLibreFlutterTexture.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [MapLibreFlutterTexture].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_0(
+        obj.pointer, _sel_isKindOfClass_, _class_MapLibreFlutterTexture);
+  }
+
+  /// init
+  MapLibreFlutterTexture init() {
+    final _ret = _objc_msgSend_19(this.retainAndReturnPointer(), _sel_init);
+    return MapLibreFlutterTexture.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// setRenderCallbackWithFrontendPtr:callback:
+  void setRenderCallbackWithFrontendPtr_callback_(
+      ffi.Pointer<ffi.Void> frontendPtr,
+      objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>
+          callback) {
+    _objc_msgSend_646(
+        this.pointer,
+        _sel_setRenderCallbackWithFrontendPtr_callback_,
+        frontendPtr,
+        callback.pointer);
+  }
+
+  /// createBufferWithWidth:height:channels:
+  void createBufferWithWidth_height_channels_(
+      int width, int height, int channels) {
+    _objc_msgSend_647(this.pointer, _sel_createBufferWithWidth_height_channels_,
+        width, height, channels);
+  }
+
+  /// copyPixelBuffer
+  ffi.Pointer<__CVBuffer> copyPixelBuffer() {
+    return _objc_msgSend_648(this.pointer, _sel_copyPixelBuffer);
+  }
+
+  /// new
+  static MapLibreFlutterTexture new1() {
+    final _ret = _objc_msgSend_19(_class_MapLibreFlutterTexture, _sel_new);
+    return MapLibreFlutterTexture.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static MapLibreFlutterTexture allocWithZone_(ffi.Pointer<_NSZone> zone) {
+    final _ret = _objc_msgSend_26(
+        _class_MapLibreFlutterTexture, _sel_allocWithZone_, zone);
+    return MapLibreFlutterTexture.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// alloc
+  static MapLibreFlutterTexture alloc() {
+    final _ret = _objc_msgSend_19(_class_MapLibreFlutterTexture, _sel_alloc);
+    return MapLibreFlutterTexture.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// cancelPreviousPerformRequestsWithTarget:selector:object:
+  static void cancelPreviousPerformRequestsWithTarget_selector_object_(
+      objc.ObjCObjectBase aTarget,
+      ffi.Pointer<objc.ObjCSelector> aSelector,
+      objc.ObjCObjectBase? anArgument) {
+    _objc_msgSend_27(
+        _class_MapLibreFlutterTexture,
+        _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
+        aTarget.pointer,
+        aSelector,
+        anArgument?.pointer ?? ffi.nullptr);
+  }
+
+  /// cancelPreviousPerformRequestsWithTarget:
+  static void cancelPreviousPerformRequestsWithTarget_(
+      objc.ObjCObjectBase aTarget) {
+    _objc_msgSend_28(_class_MapLibreFlutterTexture,
+        _sel_cancelPreviousPerformRequestsWithTarget_, aTarget.pointer);
+  }
+
+  /// accessInstanceVariablesDirectly
+  static bool getAccessInstanceVariablesDirectly() {
+    return _objc_msgSend_13(
+        _class_MapLibreFlutterTexture, _sel_accessInstanceVariablesDirectly);
+  }
+
+  /// keyPathsForValuesAffectingValueForKey:
+  static objc.NSSet keyPathsForValuesAffectingValueForKey_(objc.NSString key) {
+    final _ret = _objc_msgSend_29(_class_MapLibreFlutterTexture,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
+    return objc.NSSet.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// automaticallyNotifiesObserversForKey:
+  static bool automaticallyNotifiesObserversForKey_(objc.NSString key) {
+    return _objc_msgSend_30(_class_MapLibreFlutterTexture,
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
+  }
+
+  /// classFallbacksForKeyedArchiver
+  static objc.NSArray classFallbacksForKeyedArchiver() {
+    final _ret = _objc_msgSend_31(
+        _class_MapLibreFlutterTexture, _sel_classFallbacksForKeyedArchiver);
+    return objc.NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// classForKeyedUnarchiver
+  static objc.ObjCObjectBase classForKeyedUnarchiver() {
+    final _ret = _objc_msgSend_19(
+        _class_MapLibreFlutterTexture, _sel_classForKeyedUnarchiver);
+    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+}
+
+late final _class_MapLibreFlutterTexture =
+    objc.getClass("maplibre_flutter_map.MapLibreFlutterTexture");
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid1_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> arg0)>>()
+        .asFunction<
+            ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>()(arg0);
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid1_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    (objc.getBlockClosure(block) as ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ffi.Void>))(arg0);
+
+/// Construction methods for `objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid1 {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
+              pointer,
+              retain: retain,
+              release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>
+      fromFunctionPointer(ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> arg0)>> ptr) =>
+          objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
+              objc.newPointerBlock(
+                  _cFuncTrampoline ??= ffi.Pointer.fromFunction<
+                          ffi.Pointer<ffi.Void> Function(
+                              ffi.Pointer<objc.ObjCBlockImpl>,
+                              ffi.Pointer<ffi.Void>)>(_ObjCBlock_ffiVoid_ffiVoid1_fnPtrTrampoline)
+                      .cast(),
+                  ptr.cast()),
+              retain: false,
+              release: true);
+  static ffi.Pointer<ffi.Void>? _cFuncTrampoline;
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>
+      fromFunction(ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>) fn) =>
+          objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
+              objc.newClosureBlock(
+                  _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
+                          ffi.Pointer<ffi.Void> Function(
+                              ffi.Pointer<objc.ObjCBlockImpl>,
+                              ffi.Pointer<ffi.Void>)>(_ObjCBlock_ffiVoid_ffiVoid1_closureTrampoline)
+                      .cast(),
+                  (ffi.Pointer<ffi.Void> arg0) => fn(arg0)),
+              retain: false,
+              release: true);
+  static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>`.
+extension ObjCBlock_ffiVoid_ffiVoid1_CallExtension
+    on objc.ObjCBlock<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)> {
+  ffi.Pointer<ffi.Void> call(ffi.Pointer<ffi.Void> arg0) => pointer.ref.invoke
+      .cast<
+          ffi.NativeFunction<
+              ffi.Pointer<ffi.Void> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0)>>()
+      .asFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>)>()(pointer, arg0);
+}
+
+late final _sel_setRenderCallbackWithFrontendPtr_callback_ =
+    objc.registerName("setRenderCallbackWithFrontendPtr:callback:");
+final _objc_msgSend_646 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCBlockImpl>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCBlockImpl>)>();
+late final _sel_createBufferWithWidth_height_channels_ =
+    objc.registerName("createBufferWithWidth:height:channels:");
+final _objc_msgSend_647 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long)>>()
+    .asFunction<
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, int, int, int)>();
 final _objc_msgSend_648 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Int64)>>()
+            ffi.Pointer<__CVBuffer> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, int)>();
+        ffi.Pointer<__CVBuffer> Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 
 /// MaplibreFlutterMapPluginGlobals
 class MaplibreFlutterMapPluginGlobals extends objc.NSObject {

@@ -11,6 +11,7 @@
 #include <atomic>
 #include <memory>
 #include <optional>
+#include <future>
 
 namespace fml {
 
@@ -18,6 +19,8 @@ class FlutterRendererFrontend : public mbgl::RendererFrontend {
 public:
     FlutterRendererFrontend(mbgl::Size,
         float pixelRatio_,
+        int64_t flutterTextureId,
+        void* flutterTexturePointer,
         mbgl::gfx::HeadlessBackend::SwapBehaviour swapBehavior = mbgl::gfx::HeadlessBackend::SwapBehaviour::NoFlush,
         mbgl::gfx::ContextMode mode = mbgl::gfx::ContextMode::Unique,
         const std::optional<std::string>& localFontFamily = std::nullopt,
@@ -30,11 +33,18 @@ public:
     void setObserver(mbgl::RendererObserver&) override;
 
     double getFrameTime() const;
+
     mbgl::Size getSize() const;
     void setSize(mbgl::Size);
 
+    float getPixelRatio() const;
+    void setPixelRatio(float);
+
+    void setSizeAndPixelRatio(mbgl::Size, float);
+
     mbgl::Renderer* getRenderer();
     mbgl::gfx::RendererBackend* getBackend();
+    mbgl::gfx::HeadlessBackend* getHeadlessBackend() { return backend.get(); }
     mbgl::CameraOptions getCameraOptions();
 
     bool hasImage(const std::string&);
@@ -45,14 +55,20 @@ public:
     mbgl::LatLng latLngForPixel(const mbgl::ScreenCoordinate&);
 
     mbgl::PremultipliedImage readStillImage();
-    void renderFrame();
+    bool renderFrame();
+    bool asyncRenderFrameBlocking();
     void asyncRenderFrame();
+
+    void reduceMemoryUse();
 
     std::optional<mbgl::TransformState> getTransformState() const;
 
 private:
     mbgl::Size size;
     float pixelRatio;
+
+    int64_t flutterTextureId;
+    void* flutterTexturePointer;
 
     std::atomic<double> frameTime;
     std::unique_ptr<mbgl::gfx::HeadlessBackend> backend;

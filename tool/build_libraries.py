@@ -75,7 +75,7 @@ def build_macos_dynamic_library():
     
     # Run bazel build for macOS dynamic library
     subprocess.run(
-        shlex.split(f'bazel build //platform/flutter:maplibre_flutter_map_macos --//:renderer=metal {BZL_FLAGS}'),
+        shlex.split(f'bazel build //platform/flutter:maplibre_flutter_map_macos --//:renderer=metal {BZL_FLAGS} --sandbox_debug'),
         cwd=maplibre_native_root,
         check=True
     )
@@ -93,7 +93,7 @@ def build_test_executable():
     
     # Run bazel build for test executable
     subprocess.run(
-        shlex.split(f'bazel build //platform/flutter:main --//:renderer=metal {BZL_FLAGS} --compilation_mode dbg'),
+        shlex.split(f'bazel build //platform/flutter:main --//:renderer=metal {BZL_FLAGS} --compilation_mode dbg --sandbox_debug'),
         cwd=maplibre_native_root,
         check=True
     )

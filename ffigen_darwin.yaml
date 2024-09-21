@@ -15,13 +15,13 @@ objc-interfaces:
     - 'FlutterTextureNotifier'
     - 'FlutterTextureRegistryProxy'
     - 'MaplibreFlutterMapPluginGlobals'
-    - 'BasicFlutterTexture'
+    - 'MapLibreFlutterTexture'
 
   module:
     'FlutterTextureNotifier': 'maplibre_flutter_map'
     'FlutterTextureRegistryProxy': 'maplibre_flutter_map'
     'MaplibreFlutterMapPluginGlobals': 'maplibre_flutter_map'
-    'BasicFlutterTexture': 'maplibre_flutter_map'
+    'MapLibreFlutterTexture': 'maplibre_flutter_map'
 
 objc-protocols:
   include:

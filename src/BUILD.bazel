@@ -1,10 +1,11 @@
 load("//bazel:flags.bzl", "CPP_FLAGS", "MAPLIBRE_FLAGS")
 load("@build_bazel_rules_apple//apple:apple.bzl", "apple_universal_binary")
-load("@rules_android//rules:rules.bzl", "android_library")
+# load("@rules_android//rules:rules.bzl", "android_library")
 
 # --- Common ---
 
 SRCS = glob(["src/**/*"])
+FML_FLAGS = ['-fobjc-arc']
 
 cc_library(
     name = "maplibre_flutter_map_srcs",
@@ -13,7 +14,7 @@ cc_library(
         "//:mbgl-core",
     ],
     srcs = SRCS,
-    copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    copts = CPP_FLAGS + MAPLIBRE_FLAGS + FML_FLAGS,
     visibility = ["//visibility:private"],
 )
 
@@ -27,12 +28,11 @@ cc_binary(
         ":maplibre_flutter_map_srcs",
     ],
     srcs = SRCS + glob(["test/**/*"]),
-    copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    copts = CPP_FLAGS + MAPLIBRE_FLAGS + FML_FLAGS + ["-fsanitize=thread"],
     linkopts = [
         "-L/opt/homebrew/opt/icu4c/lib",
     ],
     visibility = ["//visibility:public"],
-    
 )
 
 # --- Android ---
@@ -70,9 +70,11 @@ cc_binary(
         ":maplibre_flutter_map_srcs",
     ],
     srcs = SRCS,
-    copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    copts = CPP_FLAGS + MAPLIBRE_FLAGS + FML_FLAGS,
     linkopts = [
         "-L/opt/homebrew/opt/icu4c/lib",
+        "-undefined",
+        "dynamic_lookup",
     ],
     visibility = ["//visibility:public"],
     linkshared = True,
@@ -90,17 +92,30 @@ apple_universal_binary(
 
 # --- macOS ---
 
+cc_library(
+    name = "maplibre_flutter_map_macos_swift",
+    srcs = [
+        "generated/lib/maplibre_flutter_map_library.dylib",
+    ],
+    hdrs = [
+        "generated/lib/maplibre_flutter_map-Swift-Clang.h",
+    ],
+)
+
 cc_binary(
     name = "maplibre_flutter_map_macos",
     deps = [
         "//platform:macos-objcpp",
         "//platform/default:mbgl-default",
+        # ":maplibre_flutter_map_macos_swift",
         ":maplibre_flutter_map_srcs",
     ],
     srcs = SRCS,
-    copts = CPP_FLAGS + MAPLIBRE_FLAGS,
+    copts = CPP_FLAGS + MAPLIBRE_FLAGS + FML_FLAGS,
     linkopts = [
         "-L/opt/homebrew/opt/icu4c/lib",
+        "-undefined",
+        "dynamic_lookup",
     ],
     visibility = ["//visibility:public"],
     linkshared = True,

@@ -1,0 +1,36 @@
+Render count: 31
+&
+ -- onWillStartRenderingFrame
+%% .bind()
+0   test                                0x0000000104c95800 _ZN4mbgl3mtl24OffscreenTextureResource4bindEv + 136
+1   test                                0x00000001043d859c _ZN4mbgl3mtl26HeadlessRenderableResource4bindEv + 44
+2   test                                0x0000000104cc7f00 _ZN4mbgl3mtl10UploadPassC2ERNS_3gfx10RenderableERNS0_14CommandEncoderEPKc + 236
+3   test                                0x0000000104cc82e0 _ZN4mbgl3mtl10UploadPassC1ERNS_3gfx10RenderableERNS0_14CommandEncoderEPKc + 52
+4   test                                0x0000000104c59a38 _ZNSt3__111make_uniqueB8ue170006IN4mbgl3mtl10UploadPassEJRNS1_3gfx10RenderableERNS2_14CommandEncoderERPKcEEENS_11__unique_ifIT_E15__unique_singleEDpOT0_ + 64
+5   test                                0x0000000104c599d8 _ZN4mbgl3mtl14CommandEncoder16createUploadPassEPKcRNS_3gfx10RenderableE + 64
+6   test                                0x000000010476184c _ZN4mbgl8Renderer4Impl6renderERKNS_10RenderTreeERKNSt3__110shared_ptrINS_16UpdateParametersEEE + 1000
+7   test                                0x000000010475cf6c _ZN4mbgl8Renderer6renderERKNSt3__110shared_ptrINS_16UpdateParametersEEE + 192
+8   test                                0x000000010407f248 _ZN3fml23FlutterRendererFrontend11renderFrameEv + 200
+9   test                                0x0000000104084764 _ZZN3fml23FlutterRendererFrontendC1EN4mbgl4SizeEfNS1_3gfx10Renderable13SwapBehaviourENS3_11ContextModeERKNSt3__18optionalINS7_12basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEEEENS7_8functionIFvvEEEENK3$_0clEv + 64
+%% .bind()
+0   test                                0x0000000104c95800 _ZN4mbgl3mtl24OffscreenTextureResource4bindEv + 136
+1   test                                0x00000001043d859c _ZN4mbgl3mtl26HeadlessRenderableResource4bindEv + 44
+2   test                                0x0000000104cc7f00 _ZN4mbgl3mtl10UploadPassC2ERNS_3gfx10RenderableERNS0_14CommandEncoderEPKc + 236
+3   test                                0x0000000104cc82e0 _ZN4mbgl3mtl10UploadPassC1ERNS_3gfx10RenderableERNS0_14CommandEncoderEPKc + 52
+4   test                                0x0000000104c59a38 _ZNSt3__111make_uniqueB8ue170006IN4mbgl3mtl10UploadPassEJRNS1_3gfx10RenderableERNS2_14CommandEncoderERPKcEEENS_11__unique_ifIT_E15__unique_singleEDpOT0_ + 64
+5   test                                0x0000000104c599d8 _ZN4mbgl3mtl14CommandEncoder16createUploadPassEPKcRNS_3gfx10RenderableE + 64
+6   test                                0x0000000104761b6c _ZN4mbgl8Renderer4Impl6renderERKNS_10RenderTreeERKNSt3__110shared_ptrINS_16UpdateParametersEEE + 1800
+7   test                                0x000000010475cf6c _ZN4mbgl8Renderer6renderERKNSt3__110shared_ptrINS_16UpdateParametersEEE + 192
+8   test                                0x000000010407f248 _ZN3fml23FlutterRendererFrontend11renderFrameEv + 200
+9   test                                0x0000000104084764 _ZZN3fml23FlutterRendererFrontendC1EN4mbgl4SizeEfNS1_3gfx10Renderable13SwapBehaviourENS3_11ContextModeERKNSt3__18optionalINS7_12basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEEEENS7_8functionIFvvEEEENK3$_0clEv + 64
+%% .bind()
+0   test                                0x0000000104c95800 _ZN4mbgl3mtl24OffscreenTextureResource4bindEv + 136
+1   test                                0x00000001043d859c _ZN4mbgl3mtl26HeadlessRenderableResource4bindEv + 44
+2   test                                0x0000000104cc0c20 _ZN4mbgl3mtl10RenderPassC2ERNS0_14CommandEncoderEPKcRKNS_3gfx20RenderPassDescriptorE + 336
+3   test                                0x0000000104cc1d30 _ZN4mbgl3mtl10RenderPassC1ERNS0_14CommandEncoderEPKcRKNS_3gfx20RenderPassDescriptorE + 52
+4   test                                0x0000000104c59b78 _ZNSt3__111make_uniqueB8ue170006IN4mbgl3mtl10RenderPassEJRNS2_14CommandEncoderERPKcRKNS1_3gfx20RenderPassDescriptorEEEENS_11__unique_ifIT_E15__unique_singleEDpOT0_ + 64
+5   test                                0x0000000104c59b18 _ZN4mbgl3mtl14CommandEncoder16createRenderPassEPKcRKNS_3gfx20RenderPassDescriptorE + 64
+6   test                                0x0000000104762bec _ZZN4mbgl8Renderer4Impl6renderERKNS_10RenderTreeERKNSt3__110shared_ptrINS_16UpdateParametersEEEENK3$_8clEv + 300
+7   test                                0x0000000104761ea0 _ZN4mbgl8Renderer4Impl6renderERKNS_10RenderTreeERKNSt3__110shared_ptrINS_16UpdateParametersEEE + 2620
+8   test                                0x000000010475cf6c _ZN4mbgl8Renderer6renderERKNSt3__110shared_ptrINS_16UpdateParametersEEE + 192
+9   test                                0x000000010407f248 _ZN3fml23FlutterRendererFrontend11renderFrameEv + 200

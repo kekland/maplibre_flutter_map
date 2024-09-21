@@ -30,11 +30,15 @@ class MapLibreFlutterMapBindings {
   late final _test_function = _test_functionPtr.asFunction<int Function()>();
 
   maplibre_thread_data start_run_loop_thread(
+    int flutterTextureId,
+    ffi.Pointer<ffi.Void> flutterTexturePointer,
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
         _invalidateFlutterTicker,
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> _onFrameRendered,
   ) {
     return _start_run_loop_thread(
+      flutterTextureId,
+      flutterTexturePointer,
       _invalidateFlutterTicker,
       _onFrameRendered,
     );
@@ -43,11 +47,15 @@ class MapLibreFlutterMapBindings {
   late final _start_run_loop_threadPtr = _lookup<
           ffi.NativeFunction<
               maplibre_thread_data Function(
+                  ffi.Int64,
+                  ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
                   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>>(
       'start_run_loop_thread');
   late final _start_run_loop_thread = _start_run_loop_threadPtr.asFunction<
       maplibre_thread_data Function(
+          int,
+          ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>();
 
@@ -83,6 +91,51 @@ class MapLibreFlutterMapBindings {
   late final _flutter_renderer_frontend_render_frame =
       _flutter_renderer_frontend_render_framePtr
           .asFunction<void Function(fml_flutter_renderer_frontend_t)>();
+
+  void flutter_renderer_frontend_reduce_memory_use(
+    fml_flutter_renderer_frontend_t frontend,
+  ) {
+    return _flutter_renderer_frontend_reduce_memory_use(
+      frontend,
+    );
+  }
+
+  late final _flutter_renderer_frontend_reduce_memory_usePtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Void Function(fml_flutter_renderer_frontend_t)>>(
+      'flutter_renderer_frontend_reduce_memory_use');
+  late final _flutter_renderer_frontend_reduce_memory_use =
+      _flutter_renderer_frontend_reduce_memory_usePtr
+          .asFunction<void Function(fml_flutter_renderer_frontend_t)>();
+
+  void flutter_renderer_frontend_set_size(
+    fml_flutter_renderer_frontend_t frontend,
+    mbgl_map_t map,
+    int width,
+    int height,
+    double pixelRatio,
+  ) {
+    return _flutter_renderer_frontend_set_size(
+      frontend,
+      map,
+      width,
+      height,
+      pixelRatio,
+    );
+  }
+
+  late final _flutter_renderer_frontend_set_sizePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              fml_flutter_renderer_frontend_t,
+              mbgl_map_t,
+              ffi.Int32,
+              ffi.Int32,
+              ffi.Double)>>('flutter_renderer_frontend_set_size');
+  late final _flutter_renderer_frontend_set_size =
+      _flutter_renderer_frontend_set_sizePtr.asFunction<
+          void Function(
+              fml_flutter_renderer_frontend_t, mbgl_map_t, int, int, double)>();
 
   void map_jump_to(
     mbgl_run_loop_t run_loop,
@@ -278,8 +331,6 @@ const int __PTHREAD_ONCE_SIZE__ = 8;
 const int __PTHREAD_RWLOCK_SIZE__ = 192;
 
 const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
-
-const int USER_ADDR_NULL = 0;
 
 const int INT8_MAX = 127;
 

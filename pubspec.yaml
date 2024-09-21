@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  flutter_gpu:
+    sdk: flutter
     
   plugin_platform_interface: ^2.0.2
   ffi: ^2.1.3
